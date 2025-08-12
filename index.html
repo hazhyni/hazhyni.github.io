@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Diri - Hazhyni</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:600,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Montserrat", Arial, sans-serif;
+        margin: 0;
+        background: #f4f6fb;
+        color: #222;
+      }
+      nav {
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      nav .nav-container {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.7em 2em;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 1.3em;
+        color: #3b82f6;
+        letter-spacing: 1px;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2em;
+        margin: 0;
+        padding: 0;
+      }
+      nav ul li a {
+        color: #222;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.4em 1em;
+        border-radius: 20px;
+        transition: background 0.2s, color 0.2s;
+      }
+      nav ul li a:hover,
+      nav ul li a.active {
+        background: #3b82f6;
+        color: #fff;
+      }
+      .container {
+        max-width: 900px;
+        margin: 2.5em auto;
+        padding: 2.5em 2em;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+      }
+      .profile-img {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        display: block;
+        margin: 0 auto 1.5em;
+        box-shadow: 0 2px 12px rgba(59, 130, 246, 0.12);
+        object-fit: cover;
+      }
+      h1 {
+        text-align: center;
+        font-size: 2.2em;
+        margin-bottom: 0.2em;
+        color: #3b82f6;
+        letter-spacing: 1px;
+      }
+      h2 {
+        color: #222;
+        margin-top: 2em;
+        margin-bottom: 0.7em;
+        font-size: 1.3em;
+        border-left: 4px solid #3b82f6;
+        padding-left: 0.6em;
+      }
+      section {
+        margin-bottom: 2em;
+      }
+      ul {
+        padding-left: 1.2em;
+      }
+      a {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      @media (max-width: 600px) {
+        nav .nav-container {
+          flex-direction: column;
+          gap: 0.7em;
+          padding: 1em;
+        }
+        .container {
+          padding: 1.2em 0.7em;
+        }
+      }
+    </style>
+    <script>
+      // Highlight active navbar link
+      window.addEventListener("DOMContentLoaded", function () {
+        const links = document.querySelectorAll("nav ul li a");
+        links.forEach((link) => {
+          if (
+            window.location.hash &&
+            link.getAttribute("href") === window.location.hash
+          ) {
+            link.classList.add("active");
+          }
+          link.addEventListener("click", function () {
+            links.forEach((l) => l.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-container">
+        <div class="logo">Hazhyni</div>
+        <ul>
+          <li><a href="#tentang" class="active">Tentang Saya</a></li>
+          <li><a href="#pendidikan">Pendidikan</a></li>
+          <li><a href="#kontak">Kontak</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <img
+        src="https://via.placeholder.com/130"
+        alt="Foto Profil"
+        class="profile-img"
+      />
+      <h1>Hazhyni</h1>
+      <section id="tentang">
+        <h2>Tentang Saya</h2>
+        <p>
+          Halo! Saya Hazhyni, seorang pengembang web yang antusias dengan
+          teknologi dan desain. Saya suka belajar hal baru dan berkontribusi
+          dalam proyek open source.
+        </p>
+      </section>
+      <section id="pendidikan">
+        <h2>Pendidikan</h2>
+        <ul>
+          <li>Sarjana Teknik Informatika - Universitas Contoh (2018-2022)</li>
+          <li>SMA Negeri 1 Contoh (2015-2018)</li>
+        </ul>
+      </section>
+      <section id="kontak">
+        <h2>Kontak</h2>
+        <p>Email: hazhyni@email.com</p>
+        <p>
+          LinkedIn:
+          <a href="https://linkedin.com/in/hazhyni" target="_blank"
+            >linkedin.com/in/hazhyni</a
+          >
+        </p>
+      </section>
+    </div>
+  </body>
+</html>
