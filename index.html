@@ -13,199 +13,422 @@
         --primary: #3b82f6;
         --secondary: #60a5fa;
         --bg: #f4f6fb;
-        --text-dark: #1f2937;
-        --text-light: #6b7280;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --ring: rgba(59, 130, 246, 0.35);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b1220;
+          --card: #0f172a;
+          --text: #e5e7eb;
+          --muted: #9ca3af;
+          --ring: rgba(96, 165, 250, 0.35);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 90px;
       }
       body {
-        font-family: "Montserrat", Arial, sans-serif;
         margin: 0;
-        background: var(--bg);
-        color: var(--text-dark);
+        font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto,
+          Arial, sans-serif;
+        background: radial-gradient(
+            1200px 600px at 80% -10%,
+            rgba(59, 130, 246, 0.12),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 500px at 10% 10%,
+            rgba(96, 165, 250, 0.12),
+            transparent 60%
+          ),
+          var(--bg);
+        color: var(--text);
         line-height: 1.6;
-        animation: fadeIn 0.8s ease-in;
+        animation: fadeIn 0.6s ease;
       }
       @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(10px);
+          transform: translateY(6px);
         }
         to {
           opacity: 1;
-          transform: translateY(0);
+          transform: none;
         }
       }
+
+      /* NAV */
       nav {
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         position: sticky;
         top: 0;
         z-index: 100;
+        backdrop-filter: saturate(140%) blur(8px);
+        background: linear-gradient(
+          90deg,
+          rgba(15, 23, 42, 0.75),
+          rgba(15, 23, 42, 0.55)
+        );
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
       }
-      nav .nav-container {
-        max-width: 1000px;
+      @media (prefers-color-scheme: light) {
+        nav {
+          background: linear-gradient(90deg, var(--primary), var(--secondary));
+          border-bottom: none;
+        }
+      }
+      .nav-container {
+        max-width: 1100px;
         margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0.8em 2em;
+        padding: 0.8em 1.2em;
       }
       .logo {
-        font-weight: 700;
-        font-size: 1.5em;
+        font-weight: 800;
+        font-size: 1.4em;
+        letter-spacing: 0.5px;
         color: #fff;
-        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .logo::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 0 18px #fff;
       }
       nav ul {
         list-style: none;
         display: flex;
-        gap: 1.5em;
+        gap: 1rem;
         margin: 0;
         padding: 0;
       }
-      nav ul li a {
+      nav a {
         color: #fff;
         text-decoration: none;
         font-weight: 600;
-        padding: 0.4em 1em;
-        border-radius: 20px;
-        transition: background 0.3s ease, transform 0.2s ease;
+        padding: 0.5em 1em;
+        border-radius: 999px;
+        transition: transform 0.2s, background 0.2s, opacity 0.2s;
+        opacity: 0.95;
       }
-      nav ul li a:hover,
-      nav ul li a.active {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
+      nav a:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.18);
       }
+      nav a.active {
+        background: rgba(255, 255, 255, 0.26);
+      }
+
+      /* LAYOUT */
       .container {
-        max-width: 1000px;
-        margin: 2em auto;
-        padding: 2em;
-        background: #fff;
-        border-radius: 20px;
-        box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 2rem 1.2rem;
       }
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(59, 130, 246, 0.09);
+        padding: 2rem;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+      }
+
+      /* HERO */
       .profile-img {
         width: 150px;
         height: 150px;
         border-radius: 50%;
         display: block;
-        margin: 0 auto 1.2em;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        margin: 0 auto 1rem;
         object-fit: cover;
-        border: 4px solid #fff;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        padding: 4px;
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.35);
+      }
+      .profile-img img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: block;
+        background: #fff;
       }
       h1 {
         text-align: center;
-        font-size: 2.4em;
-        margin-bottom: 0.3em;
-        color: var(--primary);
+        margin: 0.2rem 0 0;
+        font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+      }
+      .meta {
+        display: flex;
+        gap: 0.6rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 0.6rem 0 1.2rem;
+      }
+      .meta .pill {
+        font-size: 0.9rem;
+        color: var(--muted);
+        background: rgba(148, 163, 184, 0.12);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+      }
+
+      /* SECTION */
+      section {
+        margin-top: 1.5rem;
+      }
+      section .section-card {
+        margin-bottom: 1.2rem;
+        padding: 1.3rem 1.2rem;
+        border-radius: 14px;
+        background: linear-gradient(
+            180deg,
+            rgba(148, 163, 184, 0.08),
+            transparent 40%
+          ),
+          var(--card);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+      section .section-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 22px rgba(2, 8, 23, 0.12);
       }
       h2 {
-        color: var(--text-dark);
-        margin-top: 2em;
-        font-size: 1.4em;
-        position: relative;
+        margin: 0 0 0.8rem;
+        font-size: 1.1rem;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        color: var(--muted);
       }
-      h2::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -6px;
-        width: 50px;
-        height: 3px;
-        background: var(--primary);
-        border-radius: 2px;
+      .lead {
+        font-size: 1.02rem;
       }
-      section {
-        margin-bottom: 2em;
-        padding: 1.5em;
-        background: #fafafa;
-        border-radius: 12px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
-        transition: transform 0.2s ease;
-      }
-      section:hover {
-        transform: translateY(-3px);
-      }
+
+      /* LISTS */
       ul {
-        padding-left: 1.2em;
+        padding-left: 1.1rem;
+        margin: 0.2rem 0;
       }
       a {
         color: var(--primary);
         text-decoration: none;
-        transition: color 0.2s;
       }
       a:hover {
-        color: var(--secondary);
         text-decoration: underline;
       }
+
+      /* SKILLS */
+      .skills-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+      .skill-block {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .skill-title {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .chip {
+        display: inline-block;
+        padding: 0.33rem 0.6rem;
+        border-radius: 999px;
+        background: #eef4ff;
+        border: 1px solid #dbe7ff;
+        margin: 0.22rem;
+        font-size: 0.85rem;
+      }
+      @media (prefers-color-scheme: dark) {
+        .chip {
+          background: rgba(59, 130, 246, 0.18);
+          border-color: rgba(96, 165, 250, 0.28);
+          color: #dbeafe;
+        }
+      }
+
+      /* PROJECTS */
+      .projects {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+      .project-card {
+        background: var(--card);
+        border-radius: 14px;
+        padding: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .project-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.8rem;
+        margin-bottom: 0.5rem;
+      }
+      .project-title {
+        font-weight: 800;
+      }
+      .project-link {
+        text-decoration: none;
+        font-weight: 700;
+        border: 1px solid rgba(59, 130, 246, 0.35);
+        padding: 0.35rem 0.7rem;
+        border-radius: 10px;
+        transition: transform 0.16s, background 0.16s, box-shadow 0.16s;
+      }
+      .project-link:hover {
+        background: rgba(59, 130, 246, 0.1);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 14px var(--ring);
+      }
+      .project-desc {
+        margin: 0;
+        padding-left: 1.1rem;
+      }
+
+      /* UTIL */
+      .sr {
+        position: absolute;
+        left: -9999px;
+      }
+      .divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(148, 163, 184, 0.35),
+          transparent
+        );
+        margin: 1.5rem 0;
+      }
+
+      /* RESPONSIVE */
       @media (max-width: 600px) {
-        nav .nav-container {
+        .nav-container {
           flex-direction: column;
-          gap: 0.7em;
-          padding: 1em;
+          gap: 0.6rem;
         }
         .container {
-          padding: 1.2em;
+          padding: 1.2rem 0.9rem;
         }
       }
     </style>
-    <script>
-      window.addEventListener("DOMContentLoaded", function () {
-        const links = document.querySelectorAll("nav ul li a");
-        links.forEach((link) => {
-          if (
-            window.location.hash &&
-            link.getAttribute("href") === window.location.hash
-          ) {
-            link.classList.add("active");
-          }
-          link.addEventListener("click", function () {
-            links.forEach((l) => l.classList.remove("active"));
-            this.classList.add("active");
-          });
-        });
-      });
-    </script>
   </head>
   <body>
     <nav>
       <div class="nav-container">
         <div class="logo">Hazhyni</div>
         <ul>
-          <li><a href="#tentang" class="active">Tentang Saya</a></li>
+          <li><a href="#tentang" class="active">Tentang</a></li>
           <li><a href="#pendidikan">Pendidikan</a></li>
+          <li><a href="#pengalaman">Pengalaman</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Proyek</a></li>
+          <li><a href="#awards">Penghargaan</a></li>
           <li><a href="#kontak">Kontak</a></li>
         </ul>
       </div>
     </nav>
+
     <div class="container">
-      <img
-        src="https://via.placeholder.com/150"
-        alt="Foto Profil"
-        class="profile-img"
-      />
-      <h1>Hazhyni</h1>
-      <section id="tentang">
-        <h2>Tentang Saya</h2>
-        <p>
-          Halo! Saya Hazhyni, seorang pengembang web yang antusias dengan
-          teknologi dan desain. Saya suka belajar hal baru dan berkontribusi
-          dalam proyek open source.
-        </p>
-      </section>
-      <section id="pendidikan">
-        <h2>Pendidikan</h2>
-        <ul>
-          <li>Sarjana Teknik Informatika - Universitas Contoh (2018-2022)</li>
-          <li>SMA Negeri 1 Contoh (2015-2018)</li>
-        </ul>
-      </section>
-      <section id="kontak">
-        <h2>Kontak</h2>
-        <p>Email: <a href="mailto:hazhyni@email.com">hazhyni@email.com</a></p>
-        <p>LinkedIn: <a href="#">linkedin.com/in/hazhyni</a></p>
-      </section>
+      <div class="card">
+        <!-- HERO -->
+        <div class="profile-img">
+          <img
+            src="https://via.placeholder.com/300"
+            alt="Foto Profil"
+            id="photo"
+          />
+        </div>
+        <h1 id="nama">Hazhyni</h1>
+        <div class="meta" id="meta">
+          <span class="pill">Indonesia</span>
+          <span class="pill">Available for work</span>
+        </div>
+        <div class="divider"></div>
+
+        <!-- CONTENT SECTIONS (diisi via JS) -->
+        <section id="tentang">
+          <div class="section-card">
+            <h2>Tentang Saya</h2>
+            <p class="lead" id="tentang-text">
+              Halo! Saya Hazhyni, seorang pengembang web yang antusias dengan
+              teknologi dan desain.
+            </p>
+          </div>
+        </section>
+
+        <section id="pendidikan">
+          <div class="section-card">
+            <h2>Pendidikan</h2>
+            <ul id="pendidikan-list">
+              <li>—</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="pengalaman">
+          <div class="section-card">
+            <h2>Pengalaman Kerja</h2>
+            <div id="pengalaman-wrap"></div>
+          </div>
+        </section>
+
+        <section id="skills">
+          <div class="section-card">
+            <h2>Keterampilan</h2>
+            <div class="skills-grid" id="skills-grid"></div>
+          </div>
+        </section>
+
+        <section id="projects">
+          <div class="section-card">
+            <h2>Proyek</h2>
+            <div class="projects" id="projects-wrap"></div>
+          </div>
+        </section>
+
+        <section id="awards">
+          <div class="section-card">
+            <h2>Penghargaan</h2>
+            <ul id="awards-list"></ul>
+          </div>
+        </section>
+
+        <section id="kontak">
+          <div class="section-card">
+            <h2>Kontak</h2>
+            <div id="kontak-wrap"></div>
+          </div>
+        </section>
+      </div>
     </div>
+
     <script type="module">
       import {
         personalInfo,
@@ -216,117 +439,95 @@
         awards,
       } from "./data.js";
 
-      // Helper kecil
-      const $ = (sel) => document.querySelector(sel);
+      const $ = (s) => document.querySelector(s);
 
-      // 1) Profil dasar
-      $(".profile-img").src =
-        personalInfo.profilePicture || "https://via.placeholder.com/150";
-      $("h1").textContent = personalInfo.name || "Your Name";
+      // Hero content
+      $("#photo").src =
+        personalInfo.profilePicture || "https://via.placeholder.com/300";
+      $("#nama").textContent = personalInfo.name || "Your Name";
+      $("#tentang-text").textContent =
+        personalInfo.heroDescription || $("#tentang-text").textContent;
 
-      // Hero / Tentang Saya
-      const tentang = document.querySelector("#tentang p");
-      if (tentang && personalInfo.heroDescription) {
-        tentang.textContent = personalInfo.heroDescription;
-      }
-
-      // 2) Kontak
-      const kontak = document.querySelector("#kontak");
-      if (kontak) {
-        kontak.innerHTML = `
-      <h2>Kontak</h2>
-      <p>Email: <a href="mailto:${personalInfo.email}">${
+      const meta = $("#meta");
+      meta.innerHTML = `
+        ${
+          personalInfo.location
+            ? `<span class="pill">${personalInfo.location}</span>`
+            : ""
+        }
+        ${
           personalInfo.email
-        }</a></p>
-      <p>GitHub: <a target="_blank" rel="noopener" href="${
-        personalInfo.github
-      }">${personalInfo.github}</a></p>
-      <p>LinkedIn: <a target="_blank" rel="noopener" href="${
-        personalInfo.linkedin
-      }">${personalInfo.linkedin}</a></p>
-      <p>Lokasi: ${personalInfo.location || "-"}</p>
-    `;
-      }
-
-      // 3) Pendidikan
-      const pendidikanList = document.querySelector("#pendidikan");
-      if (pendidikanList) {
-        const items = education
-          .map(
-            (ed) => `
-      <li>
-        <strong>${ed.institution}</strong> — ${ed.degree} (${ed.period})<br/>
-        <small>${ed.location}</small>
-        ${
-          ed.achievements?.length
-            ? `<ul>${ed.achievements.map((a) => `<li>${a}</li>`).join("")}</ul>`
+            ? `<span class="pill">${personalInfo.email}</span>`
             : ""
         }
-      </li>
-    `
-          )
-          .join("");
-        pendidikanList.innerHTML = `
-      <h2>Pendidikan</h2>
-      <ul>${items}</ul>
-    `;
-      }
+        ${personalInfo.github ? `<span class="pill">GitHub</span>` : ""}
+        ${personalInfo.linkedin ? `<span class="pill">LinkedIn</span>` : ""}
+      `;
 
-      // 4) Pengalaman Kerja — bikin section baru setelah pendidikan
-      const container = document.querySelector(".container");
-      const expSection = document.createElement("section");
-      expSection.id = "pengalaman";
-      expSection.innerHTML = `
-    <h2>Pengalaman Kerja</h2>
-    ${workExperience
-      .map(
-        (w) => `
-      <div style="margin-bottom:1rem;">
-        <strong>${w.position}</strong> — ${w.company} (${w.period})<br/>
-        <small>${w.location}</small>
-        ${
-          w.achievements?.length
-            ? `<ul>${w.achievements.map((a) => `<li>${a}</li>`).join("")}</ul>`
-            : ""
-        }
-      </div>
-    `
-      )
-      .join("")}
-  `;
-      container.insertBefore(expSection, document.querySelector("#kontak"));
+      // Pendidikan
+      const edList = $("#pendidikan-list");
+      edList.innerHTML = education
+        .map(
+          (ed) => `
+        <li>
+          <strong>${ed.institution}</strong> — ${ed.degree} (${ed.period})<br/>
+          <small>${ed.location}</small>
+          ${
+            ed.achievements?.length
+              ? `<ul>${ed.achievements
+                  .map((a) => `<li>${a}</li>`)
+                  .join("")}</ul>`
+              : ""
+          }
+        </li>
+      `
+        )
+        .join("");
 
-      // 5) Skills — bikin chips lucu
-      const skillsSection = document.createElement("section");
-      skillsSection.id = "skills";
-      const makeChips = (arr = []) =>
+      // Pengalaman
+      const expWrap = $("#pengalaman-wrap");
+      expWrap.innerHTML = workExperience
+        .map(
+          (w) => `
+        <article class="project-card" style="margin-bottom:.8rem">
+          <div class="project-head">
+            <div>
+              <div class="project-title">${w.position} — ${w.company}</div>
+              <small>${w.location} • ${w.period}</small>
+            </div>
+          </div>
+          ${
+            w.achievements?.length
+              ? `<ul class="project-desc">${w.achievements
+                  .map((a) => `<li>${a}</li>`)
+                  .join("")}</ul>`
+              : ""
+          }
+        </article>
+      `
+        )
+        .join("");
+
+      // Skills
+      const skillsGrid = $("#skills-grid");
+      const chip = (arr = []) =>
         arr.map((s) => `<span class="chip">${s}</span>`).join("");
-      skillsSection.innerHTML = `
-    <h2>Keterampilan</h2>
-    <div class="skills-grid">
-      ${Object.entries(skills)
+      skillsGrid.innerHTML = Object.entries(skills)
         .map(
           ([k, v]) => `
         <div class="skill-block">
           <div class="skill-title">${k
             .replace(/([A-Z])/g, " $1")
             .replace(/^./, (s) => s.toUpperCase())}</div>
-          <div class="skill-chips">${makeChips(v)}</div>
+          <div>${chip(v)}</div>
         </div>
       `
         )
-        .join("")}
-    </div>
-  `;
-      container.insertBefore(skillsSection, expSection.nextSibling);
+        .join("");
 
-      // 6) Projects — bikin section kartu
-      const projSection = document.createElement("section");
-      projSection.id = "projects";
-      projSection.innerHTML = `
-    <h2>Proyek</h2>
-    <div class="projects">
-      ${projects
+      // Projects
+      const projWrap = $("#projects-wrap");
+      projWrap.innerHTML = projects
         .map(
           (p) => `
         <article class="project-card">
@@ -338,54 +539,76 @@
                 : ""
             }
           </div>
-          <ul class="project-desc">
-            ${p.description.map((d) => `<li>${d}</li>`).join("")}
-          </ul>
+          <ul class="project-desc">${p.description
+            .map((d) => `<li>${d}</li>`)
+            .join("")}</ul>
         </article>
       `
         )
-        .join("")}
-    </div>
-  `;
-      container.insertBefore(projSection, skillsSection.nextSibling);
+        .join("");
 
-      // 7) Awards (optional, kalau ada)
-      if (awards?.length) {
-        const awdSection = document.createElement("section");
-        awdSection.id = "awards";
-        awdSection.innerHTML = `
-      <h2>Penghargaan</h2>
-      <ul>
-        ${awards
-          .map(
-            (a) => `
-          <li>
-            <strong>${a.name}</strong> — ${a.issuer} (${a.date})<br/>
-            <small>${a.type} • ${a.position}</small>
-          </li>
-        `
-          )
-          .join("")}
-      </ul>
-    `;
-        container.insertBefore(awdSection, projSection.nextSibling);
-      }
+      // Awards
+      const awdList = $("#awards-list");
+      awdList.innerHTML = awards?.length
+        ? awards
+            .map(
+              (a) => `
+        <li><strong>${a.name}</strong> — ${a.issuer} (${a.date})<br/><small>${a.type} • ${a.position}</small></li>
+      `
+            )
+            .join("")
+        : "<li>—</li>";
 
-      // 8) Sedikit style tambahan untuk chips & cards (biar nggak ribet masuk CSS utama)
-      const style = document.createElement("style");
-      style.textContent = `
-    .skills-grid { display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-    .skill-block { background:#fafafa; border-radius:12px; padding:1rem; box-shadow:0 1px 6px rgba(0,0,0,.04); }
-    .skill-title { font-weight:600; margin-bottom:.5rem; }
-    .chip { display:inline-block; padding:.3rem .6rem; border-radius:999px; background:#eef4ff; border:1px solid #dbe7ff; margin:.2rem; font-size:.85rem; }
-    .projects { display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .project-card { background:#fff; border-radius:12px; padding:1rem; box-shadow:0 2px 12px rgba(59,130,246,.08); }
-    .project-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; }
-    .project-title { font-weight:700; }
-    .project-link { text-decoration:none; font-weight:600; }
-    .project-desc { margin:0; padding-left:1.1rem; }
-  `;
-      document.head.appendChild(style);
+      // Kontak
+      const kontak = $("#kontak-wrap");
+      kontak.innerHTML = `
+        ${
+          personalInfo.email
+            ? `<p>Email: <a href="mailto:${personalInfo.email}">${personalInfo.email}</a></p>`
+            : ""
+        }
+        ${
+          personalInfo.github
+            ? `<p>GitHub: <a target="_blank" rel="noopener" href="${personalInfo.github}">${personalInfo.github}</a></p>`
+            : ""
+        }
+        ${
+          personalInfo.linkedin
+            ? `<p>LinkedIn: <a target="_blank" rel="noopener" href="${personalInfo.linkedin}">${personalInfo.linkedin}</a></p>`
+            : ""
+        }
+      `;
+
+      // Nav active on scroll
+      const sections = [
+        "tentang",
+        "pendidikan",
+        "pengalaman",
+        "skills",
+        "projects",
+        "awards",
+        "kontak",
+      ].map((id) => document.getElementById(id));
+      const navLinks = [...document.querySelectorAll("nav a")];
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              const id = e.target.id;
+              navLinks.forEach((a) =>
+                a.classList.toggle(
+                  "active",
+                  a.getAttribute("href") === "#" + id
+                )
+              );
+            }
+          });
+        },
+        { rootMargin: "-40% 0px -55% 0px", threshold: 0.01 }
+      );
+
+      sections.forEach((s) => io.observe(s));
     </script>
   </body>
 </html>
