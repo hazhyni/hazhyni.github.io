@@ -5,100 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profil Diri - Hazhyni</title>
     <link
-      href="https://fonts.googleapis.com/css?family=Montserrat:600,400&display=swap"
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap"
       rel="stylesheet"
     />
     <style>
+      :root {
+        --primary: #3b82f6;
+        --secondary: #60a5fa;
+        --bg: #f4f6fb;
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+      }
       body {
         font-family: "Montserrat", Arial, sans-serif;
         margin: 0;
-        background: #f4f6fb;
-        color: #222;
+        background: var(--bg);
+        color: var(--text-dark);
+        line-height: 1.6;
+        animation: fadeIn 0.8s ease-in;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
       nav {
-        background: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         position: sticky;
         top: 0;
         z-index: 100;
       }
       nav .nav-container {
-        max-width: 900px;
+        max-width: 1000px;
         margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0.7em 2em;
+        padding: 0.8em 2em;
       }
       .logo {
         font-weight: 700;
-        font-size: 1.3em;
-        color: #3b82f6;
+        font-size: 1.5em;
+        color: #fff;
         letter-spacing: 1px;
       }
       nav ul {
         list-style: none;
         display: flex;
-        gap: 2em;
+        gap: 1.5em;
         margin: 0;
         padding: 0;
       }
       nav ul li a {
-        color: #222;
+        color: #fff;
         text-decoration: none;
         font-weight: 600;
         padding: 0.4em 1em;
         border-radius: 20px;
-        transition: background 0.2s, color 0.2s;
+        transition: background 0.3s ease, transform 0.2s ease;
       }
       nav ul li a:hover,
       nav ul li a.active {
-        background: #3b82f6;
-        color: #fff;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
       }
       .container {
-        max-width: 900px;
-        margin: 2.5em auto;
-        padding: 2.5em 2em;
+        max-width: 1000px;
+        margin: 2em auto;
+        padding: 2em;
         background: #fff;
-        border-radius: 18px;
+        border-radius: 20px;
         box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
       }
       .profile-img {
-        width: 130px;
-        height: 130px;
+        width: 150px;
+        height: 150px;
         border-radius: 50%;
         display: block;
-        margin: 0 auto 1.5em;
-        box-shadow: 0 2px 12px rgba(59, 130, 246, 0.12);
+        margin: 0 auto 1.2em;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         object-fit: cover;
+        border: 4px solid #fff;
       }
       h1 {
         text-align: center;
-        font-size: 2.2em;
-        margin-bottom: 0.2em;
-        color: #3b82f6;
-        letter-spacing: 1px;
+        font-size: 2.4em;
+        margin-bottom: 0.3em;
+        color: var(--primary);
       }
       h2 {
-        color: #222;
+        color: var(--text-dark);
         margin-top: 2em;
-        margin-bottom: 0.7em;
-        font-size: 1.3em;
-        border-left: 4px solid #3b82f6;
-        padding-left: 0.6em;
+        font-size: 1.4em;
+        position: relative;
+      }
+      h2::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        width: 50px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
       }
       section {
         margin-bottom: 2em;
+        padding: 1.5em;
+        background: #fafafa;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+        transition: transform 0.2s ease;
+      }
+      section:hover {
+        transform: translateY(-3px);
       }
       ul {
         padding-left: 1.2em;
       }
       a {
-        color: #3b82f6;
+        color: var(--primary);
         text-decoration: none;
+        transition: color 0.2s;
       }
       a:hover {
+        color: var(--secondary);
         text-decoration: underline;
       }
       @media (max-width: 600px) {
@@ -108,12 +145,11 @@
           padding: 1em;
         }
         .container {
-          padding: 1.2em 0.7em;
+          padding: 1.2em;
         }
       }
     </style>
     <script>
-      // Highlight active navbar link
       window.addEventListener("DOMContentLoaded", function () {
         const links = document.querySelectorAll("nav ul li a");
         links.forEach((link) => {
@@ -144,7 +180,7 @@
     </nav>
     <div class="container">
       <img
-        src="https://via.placeholder.com/130"
+        src="https://via.placeholder.com/150"
         alt="Foto Profil"
         class="profile-img"
       />
@@ -166,13 +202,8 @@
       </section>
       <section id="kontak">
         <h2>Kontak</h2>
-        <p>Email: hazhyni@email.com</p>
-        <p>
-          LinkedIn:
-          <a href="https://linkedin.com/in/hazhyni" target="_blank"
-            >linkedin.com/in/hazhyni</a
-          >
-        </p>
+        <p>Email: <a href="mailto:hazhyni@email.com">hazhyni@email.com</a></p>
+        <p>LinkedIn: <a href="#">linkedin.com/in/hazhyni</a></p>
       </section>
     </div>
   </body>
