@@ -206,5 +206,186 @@
         <p>LinkedIn: <a href="#">linkedin.com/in/hazhyni</a></p>
       </section>
     </div>
+    <script type="module">
+      import {
+        personalInfo,
+        workExperience,
+        education,
+        skills,
+        projects,
+        awards,
+      } from "./data.js";
+
+      // Helper kecil
+      const $ = (sel) => document.querySelector(sel);
+
+      // 1) Profil dasar
+      $(".profile-img").src =
+        personalInfo.profilePicture || "https://via.placeholder.com/150";
+      $("h1").textContent = personalInfo.name || "Your Name";
+
+      // Hero / Tentang Saya
+      const tentang = document.querySelector("#tentang p");
+      if (tentang && personalInfo.heroDescription) {
+        tentang.textContent = personalInfo.heroDescription;
+      }
+
+      // 2) Kontak
+      const kontak = document.querySelector("#kontak");
+      if (kontak) {
+        kontak.innerHTML = `
+      <h2>Kontak</h2>
+      <p>Email: <a href="mailto:${personalInfo.email}">${
+          personalInfo.email
+        }</a></p>
+      <p>GitHub: <a target="_blank" rel="noopener" href="${
+        personalInfo.github
+      }">${personalInfo.github}</a></p>
+      <p>LinkedIn: <a target="_blank" rel="noopener" href="${
+        personalInfo.linkedin
+      }">${personalInfo.linkedin}</a></p>
+      <p>Lokasi: ${personalInfo.location || "-"}</p>
+    `;
+      }
+
+      // 3) Pendidikan
+      const pendidikanList = document.querySelector("#pendidikan");
+      if (pendidikanList) {
+        const items = education
+          .map(
+            (ed) => `
+      <li>
+        <strong>${ed.institution}</strong> — ${ed.degree} (${ed.period})<br/>
+        <small>${ed.location}</small>
+        ${
+          ed.achievements?.length
+            ? `<ul>${ed.achievements.map((a) => `<li>${a}</li>`).join("")}</ul>`
+            : ""
+        }
+      </li>
+    `
+          )
+          .join("");
+        pendidikanList.innerHTML = `
+      <h2>Pendidikan</h2>
+      <ul>${items}</ul>
+    `;
+      }
+
+      // 4) Pengalaman Kerja — bikin section baru setelah pendidikan
+      const container = document.querySelector(".container");
+      const expSection = document.createElement("section");
+      expSection.id = "pengalaman";
+      expSection.innerHTML = `
+    <h2>Pengalaman Kerja</h2>
+    ${workExperience
+      .map(
+        (w) => `
+      <div style="margin-bottom:1rem;">
+        <strong>${w.position}</strong> — ${w.company} (${w.period})<br/>
+        <small>${w.location}</small>
+        ${
+          w.achievements?.length
+            ? `<ul>${w.achievements.map((a) => `<li>${a}</li>`).join("")}</ul>`
+            : ""
+        }
+      </div>
+    `
+      )
+      .join("")}
+  `;
+      container.insertBefore(expSection, document.querySelector("#kontak"));
+
+      // 5) Skills — bikin chips lucu
+      const skillsSection = document.createElement("section");
+      skillsSection.id = "skills";
+      const makeChips = (arr = []) =>
+        arr.map((s) => `<span class="chip">${s}</span>`).join("");
+      skillsSection.innerHTML = `
+    <h2>Keterampilan</h2>
+    <div class="skills-grid">
+      ${Object.entries(skills)
+        .map(
+          ([k, v]) => `
+        <div class="skill-block">
+          <div class="skill-title">${k
+            .replace(/([A-Z])/g, " $1")
+            .replace(/^./, (s) => s.toUpperCase())}</div>
+          <div class="skill-chips">${makeChips(v)}</div>
+        </div>
+      `
+        )
+        .join("")}
+    </div>
+  `;
+      container.insertBefore(skillsSection, expSection.nextSibling);
+
+      // 6) Projects — bikin section kartu
+      const projSection = document.createElement("section");
+      projSection.id = "projects";
+      projSection.innerHTML = `
+    <h2>Proyek</h2>
+    <div class="projects">
+      ${projects
+        .map(
+          (p) => `
+        <article class="project-card">
+          <div class="project-head">
+            <div class="project-title">${p.title}</div>
+            ${
+              p.github
+                ? `<a class="project-link" target="_blank" rel="noopener" href="${p.github}">Lihat</a>`
+                : ""
+            }
+          </div>
+          <ul class="project-desc">
+            ${p.description.map((d) => `<li>${d}</li>`).join("")}
+          </ul>
+        </article>
+      `
+        )
+        .join("")}
+    </div>
+  `;
+      container.insertBefore(projSection, skillsSection.nextSibling);
+
+      // 7) Awards (optional, kalau ada)
+      if (awards?.length) {
+        const awdSection = document.createElement("section");
+        awdSection.id = "awards";
+        awdSection.innerHTML = `
+      <h2>Penghargaan</h2>
+      <ul>
+        ${awards
+          .map(
+            (a) => `
+          <li>
+            <strong>${a.name}</strong> — ${a.issuer} (${a.date})<br/>
+            <small>${a.type} • ${a.position}</small>
+          </li>
+        `
+          )
+          .join("")}
+      </ul>
+    `;
+        container.insertBefore(awdSection, projSection.nextSibling);
+      }
+
+      // 8) Sedikit style tambahan untuk chips & cards (biar nggak ribet masuk CSS utama)
+      const style = document.createElement("style");
+      style.textContent = `
+    .skills-grid { display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .skill-block { background:#fafafa; border-radius:12px; padding:1rem; box-shadow:0 1px 6px rgba(0,0,0,.04); }
+    .skill-title { font-weight:600; margin-bottom:.5rem; }
+    .chip { display:inline-block; padding:.3rem .6rem; border-radius:999px; background:#eef4ff; border:1px solid #dbe7ff; margin:.2rem; font-size:.85rem; }
+    .projects { display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .project-card { background:#fff; border-radius:12px; padding:1rem; box-shadow:0 2px 12px rgba(59,130,246,.08); }
+    .project-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; }
+    .project-title { font-weight:700; }
+    .project-link { text-decoration:none; font-weight:600; }
+    .project-desc { margin:0; padding-left:1.1rem; }
+  `;
+      document.head.appendChild(style);
+    </script>
   </body>
 </html>
