@@ -736,9 +736,20 @@
           padding: 0.7rem 0.75rem 0.7rem 1.1rem;
         }
       }
+
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; /* Supaya jadi background */
+        pointer-events: none; /* Supaya tidak mengganggu klik */
+      }
     </style>
   </head>
   <body>
+    <canvas></canvas>
     <!-- Topbar (always visible) -->
     <header class="topbar" role="banner">
       <div class="brand">HY</div>
@@ -1351,6 +1362,47 @@
           }
         });
       });
+    </script>
+
+    <script>
+      var canvas = document.querySelector("canvas"),
+        ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      var letters =
+        "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUVÜYZabcçdefgğhıijklmnoöprsştuvüyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя";
+      letters = letters.split("");
+
+      var fontSize = 10,
+        columns = canvas.width / fontSize;
+
+      var drops = [];
+      for (var i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+
+      function draw() {
+        ctx.fillStyle = "rgba(0, 0, 0, .1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.font = fontSize + "px monospace";
+        ctx.textAlign = "center";
+
+        for (var i = 0; i < drops.length; i++) {
+          var text = letters[Math.floor(Math.random() * letters.length)];
+          ctx.fillStyle = "#0f0";
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          drops[i]++;
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
+            drops[i] = 0;
+          }
+        }
+      }
+
+      setInterval(draw, 33);
     </script>
   </body>
 </html>
