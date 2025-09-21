@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio Hazhyni — Glass Pro</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
     <style>
       :root {
         --mint: 34, 211, 238;
@@ -639,7 +642,7 @@
       <div class="card">
         <h2>Contact</h2>
         <div class="contact-grid">
-          <form id="contactForm" novalidate>
+          <form id="contact-form" novalidate>
             <div class="input-wrap">
               <span class="input-icon"
                 ><img
@@ -685,11 +688,6 @@
               ></textarea>
             </div>
             <button id="cf-submit" class="btn-primary" type="submit">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png"
-                alt="Send"
-                style="width: 18px; height: 18px"
-              />
               Kirim
             </button>
             <div
@@ -803,49 +801,59 @@
         window.__clampT = setTimeout(initReadMore, 150);
       });
 
-      // Contact form pseudo-submit with validation
-      const form = document.getElementById("contactForm");
-      const alertBox = document.getElementById("cf-alert");
-      const btn = document.getElementById("cf-submit");
-      function showAlert(msg, ok = true) {
-        alertBox.textContent = msg;
-        alertBox.className = "alert " + (ok ? "ok" : "err");
-      }
-      form?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const name = document.getElementById("cf-name").value.trim();
-        const email = document.getElementById("cf-email").value.trim();
-        const message = document.getElementById("cf-message").value.trim();
-        if (!name || !email || !message) {
-          showAlert("Lengkapi semua field, ya 🙏", false);
-          return;
+      // ganti value berikut sesuai akun EmailJS kamu
+      const EMAILJS_PUBLIC_KEY = "EmjAb8QefCpJ1p2PD";
+      const EMAILJS_SERVICE_ID = "service_z7zaw2f";
+      const EMAILJS_TEMPLATE_ID = "template_7jgzz38";
+
+      // init EmailJS
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("contact-form");
+        const btn = document.getElementById("cf-submit");
+        const alertBox = document.getElementById("cf-alert");
+
+        function showAlert(msg, ok = true) {
+          alertBox.textContent = msg;
+          alertBox.className = "alert show " + (ok ? "ok" : "err");
         }
-        btn.disabled = true;
-        btn.innerHTML = "Mengirim…";
-        try {
-          await new Promise((r) => setTimeout(r, 900));
-          showAlert(
-            "Terkirim! Terima kasih, akan kubalas secepatnya. 🚀",
-            true
-          );
-          form.reset();
-          let t = document.querySelector(".toast");
-          if (!t) {
-            t = document.createElement("div");
-            t.className = "toast";
-            t.textContent = "Message sent ✨";
-            document.body.appendChild(t);
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById("cf-name").value.trim();
+          const email = document.getElementById("cf-email").value.trim();
+          const message = document.getElementById("cf-message").value.trim();
+
+          if (!name || !email || !message) {
+            showAlert("Lengkapi semua field, ya 🙏", false);
+            return;
           }
-          t.classList.add("show");
-          setTimeout(() => t.classList.remove("show"), 1800);
-        } catch (err) {
-          console.error(err);
-          showAlert("Gagal mengirim. Coba lagi ya.", false);
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML =
-            '<img src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" alt="Send" style="width:18px;height:18px"> Kirim';
-        }
+
+          btn.disabled = true;
+          btn.innerHTML = "Mengirim…";
+
+          try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+              from_name: name,
+              from_email: email,
+              message: message,
+            });
+            showAlert(
+              "Terkirim! Terima kasih, akan kubalas secepatnya. 🚀",
+              true
+            );
+            form.reset();
+          } catch (err) {
+            console.error(err);
+            showAlert("Gagal mengirim. Coba lagi ya.", false);
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML =
+              '<button id="cf-submit" class="btn-primary" type="submit"> Kirim </button>';
+          }
+        });
       });
     </script>
   </body>
