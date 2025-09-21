@@ -2,660 +2,356 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Profil — Hazhyni</title>
-
-    <!-- Init theme: localStorage > system -->
-    <script>
-      (() => {
-        const saved = localStorage.getItem("theme");
-        const systemDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        const theme = saved ?? (systemDark ? "dark" : "light");
-        if (theme === "dark") document.documentElement.classList.add("dark");
-      })();
-    </script>
-
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Hazhyni — Glass Pro</title>
     <style>
       :root {
-        --primary: #4f46e5; /* Indigo */
-        --secondary: #6366f1; /* Indigo lighter */
-        --bg: #f5f3ff; /* Light lavender */
-        --fg: #1e1b4b; /* Dark indigo text */
-        --card: #ffffff;
-        --border: #ddd6fe; /* Soft purple border */
-        --muted: #6d28d9; /* Muted purple */
-        --ring: rgba(99, 102, 241, 0.35);
-        --drawer-w: min(90vw, 320px);
-        --nav-radius: 12px;
-        --spy: #c4b5fd; /* Light purple */
-      }
-      .dark {
-        --bg: #0b0f19;
+        --mint: 34, 211, 238;
+        --lav: 167, 139, 250;
+        --bg: linear-gradient(135deg, #0b0f19, #1e1b4b);
         --fg: #f8fafc;
-        --card: #111827;
-        --border: #334155;
-        --muted: #9ca3af;
-        --ring: rgba(96, 165, 250, 0.35);
-        --spy: #93c5fd;
+        --muted: #cbd5e1;
+        --card: rgba(255, 255, 255, 0.05);
+        --border: rgba(255, 255, 255, 0.1);
+        --nav: rgba(17, 25, 40, 0.35);
+        --nav-scrolled: rgba(2, 6, 23, 0.55);
+      }
+      html[data-theme="light"] {
+        --bg: linear-gradient(135deg, #f5f7ff, #e8ecff);
+        --fg: #0b1220;
+        --muted: #475569;
+        --card: rgba(255, 255, 255, 0.55);
+        --border: rgba(2, 6, 23, 0.12);
+        --nav: rgba(255, 255, 255, 0.7);
+        --nav-scrolled: rgba(255, 255, 255, 0.85);
       }
 
       * {
         box-sizing: border-box;
-        text-decoration: none;
-      }
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-top: 64px;
       }
       body {
         margin: 0;
-        font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto,
-          Arial, sans-serif;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        background: var(--bg);
         color: var(--fg);
-        background: radial-gradient(
-            1200px 600px at 80% -10%,
-            rgba(59, 130, 246, 0.12),
-            transparent 60%
-          ),
-          radial-gradient(
-            900px 500px at 10% 10%,
-            rgba(96, 165, 250, 0.12),
-            transparent 60%
-          ),
-          var(--bg);
-        line-height: 1.6;
-        min-height: 100dvh;
       }
-      body.no-scroll {
-        overflow: hidden;
-      }
-
-      /* Topbar */
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 90;
-        background: var(--card);
-        border-bottom: 1px solid var(--border);
-        padding: 10px 12px;
+      nav {
+        position: fixed;
+        inset: 0 0 auto 0;
+        height: 72px;
         display: flex;
-        align-items: center;
-        gap: 10px;
         justify-content: space-between;
+        align-items: center;
+        padding: 12px 24px;
+        background: var(--nav);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        z-index: 100;
+      }
+      nav.scrolled {
+        background: var(--nav-scrolled);
       }
       .brand {
+        font-weight: 800;
         display: flex;
         align-items: center;
         gap: 0.6rem;
-        font-weight: 800;
-        letter-spacing: 0.3px;
       }
-      .brand::before {
-        content: "";
+      .brand-dot {
         width: 10px;
         height: 10px;
-        border-radius: 999px;
-        background: var(--fg);
-        box-shadow: 0 0 12px var(--fg);
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(var(--mint), 1),
+          rgba(var(--lav), 1)
+        );
       }
-      .actions {
+      .links {
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        gap: 10px;
       }
-
-      .btn {
+      .links a {
+        color: var(--fg);
+        text-decoration: none;
+        font-weight: 700;
+        padding: 0.5rem 0.8rem;
+        border-radius: 999px;
+      }
+      .links a:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .toggle {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.5rem 0.8rem;
-        border-radius: 999px;
         border: 1px solid var(--border);
         background: transparent;
         color: var(--fg);
+        padding: 0.5rem 0.8rem;
+        border-radius: 999px;
         cursor: pointer;
-      }
-      .btn:hover {
-        background: rgba(148, 163, 184, 0.15);
-      }
-      .btn .label {
-        font: 600 0.9rem/1 system-ui;
-      }
-
-      /* Drawer Sidebar (hidden by default) */
-      .sidebar {
-        position: fixed;
-        inset: 0 auto 0 0;
-        width: var(--drawer-w);
-        background: linear-gradient(
-          180deg,
-          rgba(15, 23, 42, 0.94),
-          rgba(15, 23, 42, 0.84)
-        );
-        border-right: 1px solid rgba(148, 163, 184, 0.22);
-        --backdrop-filter: blur(8px) saturate(140%);
-        padding: 16px 14px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        z-index: 100;
-        overflow-y: auto;
-        transform: translateX(-100%);
-        transition: transform 0.28s ease;
-      }
-      .dark .sidebar {
-        background: linear-gradient(
-          180deg,
-          rgba(2, 8, 23, 0.96),
-          rgba(2, 8, 23, 0.86)
-        );
-      }
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(2, 8, 23, 0.5);
-        --backdrop-filter: blur(2px);
-        z-index: 95;
-        display: none;
-      }
-      .backdrop.show {
-        display: block;
-      }
-
-      .profile {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.6rem;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.08);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.22);
-      }
-      .avatar {
-        inline-size: 44px;
-        aspect-ratio: 1 / 1;
-        border-radius: 50%;
-        overflow: hidden;
-        background: #fff;
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        flex: 0 0 auto;
-      }
-      .avatar img {
-        inline-size: 100%;
-        block-size: 100%;
-        object-fit: cover;
-        object-position: center;
-        display: block;
-      }
-
-      .name {
         font-weight: 800;
-        line-height: 1.2;
-        color: #fff;
       }
-      .role {
-        font-size: 0.82rem;
-        opacity: 0.9;
-        color: #fff;
+      .toggle svg {
+        width: 18px;
+        height: 18px;
       }
 
-      .nav {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        margin-top: 4px;
-      }
-      .nav a {
-        position: relative;
-        color: #fff;
-        text-decoration: none;
-        font-weight: 600;
-        padding: 0.6rem 0.7rem 0.6rem 1.1rem;
-        border-radius: var(--nav-radius);
-        opacity: 0.95;
-        transition: background 0.18s, transform 0.18s;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-height: 40px;
-      }
-      .nav a:hover {
-        transform: translateX(2px);
-        background: rgba(255, 255, 255, 0.16);
-        text-decoration: none;
-      }
-      .nav a.active {
-        background: rgba(255, 255, 255, 0.23);
-      }
-      .nav a::before {
-        content: "";
-        position: absolute;
-        left: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 4px;
-        height: 4px;
-        border-radius: 999px;
-        background: transparent;
-        box-shadow: none;
-        transition: all 0.18s ease;
-      }
-      .nav a.active::before {
-        background: var(--spy);
-        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.16);
-      }
-      .badge {
-        font-size: 0.75rem;
-        font-weight: 700;
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        padding: 0.12rem 0.45rem;
-        border-radius: 999px;
-        line-height: 1;
-      }
-
-      .sidebar-footer {
-        margin-top: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .theme-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.45rem 0.7rem;
-        border-radius: 999px;
-        line-height: 1;
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        background: rgba(255, 255, 255, 0.12);
-        color: #fff;
-        cursor: pointer;
-      }
-      .theme-btn:hover {
-        transform: translateY(-1px);
-        background: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-      }
-
-      /* Content */
-      .container {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 18px clamp(14px, 3vw, 28px) 40px;
-      }
-      .card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
-        padding: 22px;
+      section {
+        padding: 10px 20px;
+        max-width: 1024px;
+        margin: auto;
       }
       .hero {
         text-align: center;
+        padding-top: 140px;
       }
-      .hero #tentang {
-        text-align: justify;
-      }
-      .profile-img {
-        inline-size: clamp(120px, 28vw, 200px); /* responsif */
-        aspect-ratio: 1 / 1; /* selalu kotak -> jadi lingkaran */
-        border-radius: 50%;
-        margin: 8px auto 12px;
-        padding: 4px;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        box-shadow: 0 10px 25px var(--ring);
-      }
-      .profile-img img {
-        inline-size: 100%;
-        block-size: 100%;
-        border-radius: 50%;
-        object-fit: cover; /* isi lingkaran tanpa distorsi */
-        object-position: center; /* fokus di tengah */
-        display: block;
-        background: #fff;
-      }
-
-      h1 {
-        margin: 0.2rem 0 0;
-        font-size: clamp(1.8rem, 2.6vw, 2.6rem);
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        font-weight: 800;
-      }
-      .meta {
-        display: flex;
-        gap: 0.5rem;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin: 0.6rem 0 1.1rem;
-      }
-      .pill {
-        font-size: 0.9rem;
-        color: var(--muted);
-        background: rgba(148, 163, 184, 0.12);
-        border: 1px solid var(--border);
-        padding: 0.33rem 0.6rem;
-        border-radius: 999px;
-      }
-
-      .divider {
-        height: 1px;
+      .hero h1 {
+        font-size: 2.8rem;
+        margin: 0 0 10px;
         background: linear-gradient(
           90deg,
-          transparent,
-          rgba(148, 163, 184, 0.35),
-          transparent
+          rgba(var(--mint), 1),
+          rgba(var(--lav), 1)
         );
-        margin: 1.3rem 0;
-      }
-      section {
-        margin-top: 18px;
-      }
-      .section-card {
-        margin-bottom: 14px;
-        padding: 16px 14px;
-        border-radius: 14px;
-        background: linear-gradient(
-            180deg,
-            rgba(148, 163, 184, 0.08),
-            transparent 40%
-          ),
-          var(--card);
-        border: 1px solid var(--border);
-        transition: transform 0.18s, box-shadow 0.18s;
-      }
-      .section-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 22px rgba(2, 8, 23, 0.12);
-      }
-      /* Pastikan list di section (termasuk Pendidikan) rata kiri */
-      .section-card ul {
-        padding-left: 1.2rem;
-        margin: 0.4rem 0;
-        text-align: left;
-        list-style: none; /* hapus bullet default */
+        -webkit-background-clip: text;
+        color: transparent;
       }
 
-      .section-card ul li {
-        margin-bottom: 0.5rem;
-        position: relative;
-        padding-left: 1.4rem; /* jarak untuk bullet custom */
-        line-height: 1.5;
-      }
-
-      .section-card ul li::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0.6em;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--primary); /* biru-ungu */
-        box-shadow: 0 0 4px var(--secondary);
-      }
-
-      /* Untuk sub-list (achievements) di bawah pendidikan */
-      .section-card ul ul {
-        margin-top: 0.3rem;
-        padding-left: 1.4rem;
-      }
-
-      .section-card ul ul li::before {
-        background: var(--secondary);
-        width: 6px;
-        height: 6px;
-        top: 0.55em;
-      }
-
-      h2 {
-        margin: 0 0 0.75rem;
-        font-size: 1.05rem;
-        letter-spacing: 0.35px;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-      .lead {
-        font-size: 1.02rem;
-      }
-
-      ul {
-        padding-left: 1.1rem;
-        margin: 0.2rem 0;
-      }
-
-      a {
-        color: var(--primary);
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-
-      .skills-grid {
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      }
-      .skill-block {
+      .card {
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1rem;
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 20px;
+        backdrop-filter: blur(12px);
+        transition: all 0.3s ease;
       }
-      .skill-block:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 18px rgba(59, 130, 246, 0.14);
-      }
-      .skill-title {
-        font-weight: 700;
-        margin-bottom: 0.6rem;
-        font-size: 1rem;
-        color: var(--primary);
-      }
-      .chip {
-        display: inline-block;
-        padding: 0.35rem 0.65rem;
-        border-radius: 999px;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        border: none;
-        margin: 0.2rem;
-        font-size: 0.85rem;
-        color: #fff;
-        font-weight: 500;
-        box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
-      }
-      .chip:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
-      }
-      .dark .chip {
-        background: rgba(59, 130, 246, 0.18);
-        border-color: rgba(96, 165, 250, 0.28);
-        color: #dbeafe;
+      .grid {
+        display: grid;
+        gap: 16px;
       }
 
+      /* Skills */
+      .skills {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .skills .card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .skills .card h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          rgba(var(--mint), 1),
+          rgba(var(--lav), 1)
+        );
+        -webkit-background-clip: text;
+        color: transparent;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .skills .card h3 img {
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
+      }
+      .skills .card p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: var(--muted);
+      }
+      .skills .card:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 0 18px rgba(var(--lav), 0.55),
+          0 0 30px rgba(var(--mint), 0.45);
+      }
+
+      /* Projects */
       .projects {
-        display: grid;
-        gap: 1rem;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       }
       .project-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1rem;
-      }
-      .project-head {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .thumb {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        aspect-ratio: 16/9;
+        background: #0b0f19;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .proj-head {
+        display: flex;
         justify-content: space-between;
-        gap: 0.8rem;
-        margin-bottom: 0.5rem;
+        align-items: center;
       }
-      .project-title {
-        font-weight: 800;
+      .proj-title {
+        font-weight: 900;
       }
-      .project-link {
-        text-decoration: none;
-        font-weight: 700;
-        border: 1px solid var(--ring);
-        padding: 0.35rem 0.7rem;
-        border-radius: 10px;
-        transition: transform 0.16s, background 0.16s, box-shadow 0.16s;
-      }
-      .project-link:hover {
-        text-decoration: none;
-        background: rgba(59, 130, 246, 0.1);
-        transform: translateY(-1px);
-        box-shadow: 0 6px 14px var(--ring);
-      }
-      .project-desc {
-        margin: 0;
-        padding-left: 1.1rem;
-      }
-      /* Contact */
-      .contact-form {
-        margin-top: 1.2rem;
+      .proj-links {
         display: flex;
-        flex-direction: column;
-        gap: 0.9rem;
+        gap: 8px;
       }
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
-
-      .form-group label {
-        font-weight: 600;
-        color: var(--fg);
-        font-size: 0.9rem;
-      }
-
-      .form-group input,
-      .form-group textarea {
-        padding: 0.6rem 0.8rem;
+      .proj-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
         border: 1px solid var(--border);
-        border-radius: 10px;
-        font-size: 0.95rem;
-        background: var(--card);
-        color: var(--fg);
-        transition: border-color 0.2s, box-shadow 0.2s;
+        transition: 0.25s;
+      }
+      .proj-links a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+      .proj-links img {
+        width: 18px;
+        height: 18px;
       }
 
-      .form-group input:focus,
-      .form-group textarea:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px var(--ring);
-        outline: none;
-      }
-
-      .btn-submit {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: #fff;
-        padding: 0.7rem;
-        font-size: 1rem;
-        font-weight: 600;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
-      }
-
-      .btn-submit:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
-      }
-
-      .contact-wrap {
-        display: grid;
-        gap: 1rem;
-      }
-      .contact-form {
-        margin-top: 1rem;
+      .chips {
         display: flex;
-        flex-direction: column;
-        gap: 0.9rem;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0.3rem 0;
       }
-      .form-row {
+      .chip {
+        padding: 0.3rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        background: linear-gradient(
+          135deg,
+          rgba(var(--mint), 1),
+          rgba(var(--lav), 1)
+        );
+        color: #0b0f19;
+      }
+      .proj-desc {
+        font-size: 0.95rem;
+        color: var(--muted);
+        line-height: 1.6;
+        text-align: justify;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .project-card.expanded .proj-desc {
+        display: block;
+        -webkit-line-clamp: unset;
+        overflow: visible;
+      }
+      .more-btn {
+        margin-top: auto;
+        align-self: flex-start;
+        padding: 0.42rem 0.76rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--fg);
+        font-weight: 800;
+        text-decoration: none;
+        font-size: 0.86rem;
+        border: 1px solid var(--border);
+        cursor: pointer;
+      }
+      .more-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      /* Contact (glass, professional) */
+      .contact-grid {
         display: grid;
-        gap: 0.8rem;
-        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        grid-template-columns: 1fr;
       }
-      @media (max-width: 700px) {
-        .form-row {
-          grid-template-columns: 1fr;
+      @media (min-width: 720px) {
+        .contact-grid {
+          grid-template-columns: 1fr 1fr;
         }
       }
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
+      .input-wrap {
+        position: relative;
+        margin-bottom: 15px;
       }
-      .form-group label {
-        font-weight: 600;
-        color: var(--fg);
-        font-size: 0.9rem;
-      }
-      .form-group input,
-      .form-group textarea {
-        padding: 0.6rem 0.8rem;
+      .input {
+        width: 100%;
+        padding: 0.9rem 1rem 0.9rem 2.6rem;
+        border-radius: 12px;
         border: 1px solid var(--border);
-        border-radius: 10px;
-        font-size: 0.95rem;
-        background: var(--card);
+        background: rgba(255, 255, 255, 0.06);
         color: var(--fg);
-        transition: border-color 0.2s, box-shadow 0.2s;
+        box-shadow: 0 6px 18px rgba(2, 6, 23, 0.12);
+        transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
       }
-      .form-group input:focus,
-      .form-group textarea:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px var(--ring);
+      .input::placeholder {
+        color: rgba(203, 213, 225, 0.8);
+      }
+      .input:focus {
         outline: none;
+        border-color: rgba(var(--lav), 0.6);
+        box-shadow: 0 0 0 4px rgba(var(--lav), 0.25);
+        background: rgba(255, 255, 255, 0.1);
       }
-      .btn-submit {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: #fff;
-        padding: 0.7rem;
-        font-size: 1rem;
-        font-weight: 700;
-        border: none;
-        border-radius: 10px;
+      .input-icon {
+        position: absolute;
+        inset: 0 auto 0 0.8rem;
+        width: 20px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        opacity: 0.9;
+      }
+      .input-icon img {
+        width: 18px;
+        height: 18px;
+        opacity: 0.9;
+      }
+      textarea.input {
+        min-height: 140px;
+        resize: vertical;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1rem;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        font-weight: 800;
+        color: #0b0f19;
+        background: linear-gradient(
+          135deg,
+          rgba(var(--mint), 1),
+          rgba(var(--lav), 1)
+        );
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        transition: transform 0.18s, box-shadow 0.18s;
       }
-      .btn-submit:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+      .btn-primary:hover {
+        filter: brightness(1.05);
       }
-      .btn-submit[disabled] {
+      .btn-primary[disabled] {
         opacity: 0.7;
         cursor: not-allowed;
       }
@@ -665,105 +361,94 @@
         color: var(--muted);
       }
       .alert {
+        display: none;
         margin-top: 0.6rem;
         padding: 0.6rem 0.8rem;
         border-radius: 10px;
         font-size: 0.9rem;
-        display: none;
-      }
-      .alert.show {
-        display: block;
       }
       .alert.ok {
+        display: block;
         background: rgba(34, 197, 94, 0.12);
         border: 1px solid rgba(34, 197, 94, 0.35);
-        color: #065f46;
+        color: #dcfce7;
       }
       .alert.err {
+        display: block;
         background: rgba(239, 68, 68, 0.12);
         border: 1px solid rgba(239, 68, 68, 0.35);
-        color: #7f1d1d;
+        color: #fee2e2;
+      }
+
+      .contact-aside {
+        display: grid;
+        gap: 10px;
+      }
+      .contact-aside .mini {
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .contact-aside .mini h4 {
+        margin: 0.1rem 0;
+        font-size: 1rem;
+      }
+      .contact-aside .mini p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
       }
 
       .contact-icons {
         display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-top: 0.8rem;
+        justify-content: flex-start;
+        gap: 0.7rem;
+        margin-top: 0.6rem;
       }
-
-      .contact-icon {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: var(--fg);
-        font-size: 0.85rem;
-        font-weight: 600;
-      }
-
-      .contact-icon i {
-        width: 48px;
-        height: 48px;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        border-radius: 50%;
-        display: flex;
+      .contact-icons a {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        color: #fff;
-        font-size: 1.3rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
-        margin-bottom: 0.4rem;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border);
+        transition: all 0.25s ease;
+        box-shadow: 0 8px 24px rgba(2, 6, 23, 0.12);
+      }
+      .contact-icons a:hover {
+        background: rgba(255, 255, 255, 0.18);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(2, 6, 23, 0.2);
+      }
+      .contact-icons img {
+        width: 20px;
+        height: 20px;
       }
 
-      .contact-icon:hover i {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 14px rgba(79, 70, 229, 0.5);
-      }
-
-      .contact-icon span {
+      footer {
         text-align: center;
-        font-size: 0.8rem;
-        color: var(--fg);
-      }
-
-      /* Tiny screens */
-      @media (max-width: 380px) {
-        .btn .label {
-          display: none;
-        }
-        .nav a {
-          padding: 0.7rem 0.75rem 0.7rem 1.1rem;
-        }
-      }
-
-      canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1; /* Supaya jadi background */
-        pointer-events: none; /* Supaya tidak mengganggu klik */
+        padding: 20px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        background: var(--nav);
       }
     </style>
   </head>
   <body>
-    <canvas></canvas>
-    <!-- Topbar (always visible) -->
-    <header class="topbar" role="banner">
-      <div class="brand">HY</div>
-      <div class="actions">
-        <button
-          class="btn"
-          id="theme-toggle-top"
-          aria-label="Toggle theme"
-          title="Toggle theme"
-        >
+    <nav id="topnav">
+      <div class="brand"><span class="brand-dot"></span> Hazhiyah Yumni</div>
+      <div class="links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+        <button id="themeToggle" class="toggle">
           <svg
-            id="icon-sun-top"
-            width="18"
-            height="18"
+            id="iconSun"
             viewBox="0 0 24 24"
             fill="currentColor"
             style="display: none"
@@ -773,636 +458,395 @@
             />
           </svg>
           <svg
-            id="icon-moon-top"
-            width="18"
-            height="18"
+            id="iconMoon"
             viewBox="0 0 24 24"
             fill="currentColor"
             style="display: none"
           >
             <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
           </svg>
-          <span class="label">Theme</span>
-        </button>
-        <button
-          class="btn"
-          id="menu-open"
-          aria-label="Buka menu"
-          aria-controls="sidebar"
-          aria-expanded="false"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" />
-          </svg>
-          <span class="label">Menu</span>
+          <span id="themeLabel">Theme</span>
         </button>
       </div>
-    </header>
+    </nav>
 
-    <!-- Drawer Sidebar -->
-    <aside class="sidebar" id="sidebar" aria-label="Navigasi samping">
-      <div class="profile">
-        <div class="avatar">
-          <img
-            id="side-photo"
-            src="./donwload.jpeg"
-            alt="Foto"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <div>
-          <div class="name" id="side-name">Hazhyni</div>
-          <div class="role" id="side-role">Available for work</div>
-        </div>
+    <section id="home" class="hero">
+      <h1>Hi, I'm Hazhiyah Yumni</h1>
+      <p>Software Engineer & Research‑Driven Builder</p>
+    </section>
+
+    <section id="about">
+      <div class="card">
+        <h2>About Me</h2>
+        <p>
+          Latar belakang Sistem Informasi, pengalaman admin proyek & tender,
+          fokus pada web development dan riset AI kecil‑kecilan.
+        </p>
       </div>
+    </section>
 
-      <nav class="nav" id="nav">
-        <a href="#tentang" class="active">Tentang</a>
-        <a href="#pendidikan">Pendidikan</a>
-        <a href="#pengalaman">Pengalaman</a>
-        <a href="#skills"
-          >Skills <span class="badge" id="badge-skills">0</span></a
-        >
-        <a href="#projects"
-          >Proyek <span class="badge" id="badge-projects">0</span></a
-        >
-        <a href="#awards">Penghargaan</a>
-        <a href="#kontak">Kontak</a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <button
-          id="theme-toggle"
-          aria-label="Toggle theme"
-          title="Toggle theme"
-          class="theme-btn"
-        >
-          <svg
-            id="icon-sun"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            style="display: none"
-          >
-            <path
-              d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.79 1.8-1.79zM1 13h3v-2H1v2zm10 10h2v-3h-2v3zm9.83-18.16l-1.79-1.79-1.79 1.79 1.79 1.79 1.79-1.79zM17.24 19.16l1.79 1.8 1.79-1.8-1.79-1.79-1.79 1.79zM20 11v2h3v-2h-3zM12 5a7 7 0 100 14 7 7 0 000-14z"
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="grid skills">
+        <div class="card">
+          <h3>
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+              alt="HTML"
             />
-          </svg>
-          <svg
-            id="icon-moon"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            style="display: none"
-          >
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-          </svg>
-          <span class="btn-label" id="theme-label">Theme</span>
-        </button>
-        <button class="theme-btn" id="menu-close" aria-label="Tutup menu">
-          <span>Close</span>
-        </button>
+            Frontend
+          </h3>
+          <p>
+            Membuat antarmuka interaktif dan responsif menggunakan HTML, CSS,
+            Tailwind, dan React.
+          </p>
+        </div>
+        <div class="card">
+          <h3>
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg"
+              alt="Laravel"
+            />
+            Backend
+          </h3>
+          <p>
+            Membangun server dan API dengan Laravel & REST API untuk aplikasi
+            yang stabil dan scalable.
+          </p>
+        </div>
+        <div class="card">
+          <h3>
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+              alt="Git"
+            />
+            Tools
+          </h3>
+          <p>
+            Menguasai Git, manajemen database MySQL, serta desain prototipe
+            menggunakan Figma.
+          </p>
+        </div>
+        <div class="card">
+          <h3>
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+              alt="Python"
+            />
+            Research
+          </h3>
+          <p>
+            Menggunakan Python serta teknik explainable AI (SHAP/LIME) untuk
+            analisis data dan riset sederhana.
+          </p>
+        </div>
       </div>
-    </aside>
-    <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+    </section>
 
-    <!-- Content -->
-    <main class="container" id="content">
-      <div class="card hero">
-        <div class="profile-img">
-          <img
-            id="photo"
-            src="./donwload.jpeg"
-            alt="Foto Profil"
-            loading="lazy"
-            decoding="async"
-            sizes="(max-width: 600px) 140px, (max-width: 1024px) 180px, 200px"
-          />
-        </div>
-        <h1 id="nama">Hazhyni</h1>
-        <div class="meta" id="meta">
-          <span class="pill">Indonesia</span>
-        </div>
-        <div class="divider"></div>
-
-        <section id="tentang">
-          <div class="section-card">
-            <h2>About Me</h2>
-            <p class="lead" id="tentang-text">Hello! My name is Hazhiyah.</p>
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="grid projects">
+        <article class="card project-card">
+          <div class="thumb">
+            <img
+              src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop"
+              alt="Food Delivery API"
+            />
           </div>
-        </section>
-
-        <section id="skills">
-          <div class="section-card">
-            <h2>Skill</h2>
-            <div class="skills-grid" id="skills-grid"></div>
-          </div>
-        </section>
-
-        <section id="projects">
-          <div class="section-card">
-            <h2>Projects</h2>
-            <div class="projects" id="projects-wrap"></div>
-          </div>
-        </section>
-
-        <section id="pendidikan">
-          <div class="section-card">
-            <h2>Education</h2>
-            <ul id="pendidikan-list"></ul>
-          </div>
-        </section>
-
-        <section id="pengalaman">
-          <div class="section-card">
-            <h2>Work Experience</h2>
-            <ul id="pengalaman-list">
-              <li>—</li>
-            </ul>
-          </div>
-        </section>
-
-        <section id="awards">
-          <div class="section-card">
-            <h2>Awards</h2>
-            <ul id="awards-list"></ul>
-          </div>
-        </section>
-
-        <section id="kontak">
-          <div class="section-card">
-            <h2>Contact</h2>
-            <div class="contact-icons">
-              <a
-                href="mailto:hazhiyahy4@gmail.com"
-                class="contact-icon"
-                title="Email"
-              >
-                <i class="fas fa-envelope"></i>
-                <span>Gmail</span>
-              </a>
-
-              <a
-                href="https://github.com/hazhyni"
-                target="_blank"
-                rel="noopener"
-                class="contact-icon"
-                title="GitHub"
-              >
-                <i class="fab fa-github"></i>
-                <span>GitHub</span>
-              </a>
-              <a
-                href="https://linkedin.com/in/hazhiyah"
-                target="_blank"
-                rel="noopener"
-                class="contact-icon"
-                title="LinkedIn"
-              >
-                <i class="fab fa-linkedin-in"></i>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-            <div class="contact-wrap">
-              <!-- Link/teks kontak statis tetap diisi via JS seperti sebelumnya -->
-              <div id="kontak-wrap"></div>
-
-              <!-- Form Email Me (no backend, no refresh) -->
-              <form id="contact-form" class="contact-form" novalidate>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="cf-name">Name</label>
-                    <input
-                      id="cf-name"
-                      name="name"
-                      type="text"
-                      placeholder="Please type your name here"
-                      required
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="cf-email">Email</label>
-                    <input
-                      id="cf-email"
-                      name="email"
-                      type="email"
-                      placeholder="Please type your email here"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="cf-message" style="text-align: start"
-                    >Messages</label
-                  >
-                  <textarea
-                    id="cf-message"
-                    name="message"
-                    rows="4"
-                    placeholder="Hi, I'm interested in..."
-                    required
-                  ></textarea>
-                </div>
-
-                <button type="submit" id="cf-submit" class="btn-submit">
-                  Kirim
-                </button>
-                <div id="cf-alert" class="alert"></div>
-                <div class="form-note">
-                  I'll never share your email with anyone else.
-                </div>
-              </form>
+          <div class="proj-head">
+            <h3 class="proj-title">Food Delivery API</h3>
+            <div class="proj-links">
+              <a href="#" title="Repository"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/733/733609.png"
+                  alt="Repo"
+              /></a>
             </div>
           </div>
-        </section>
-      </div>
-    </main>
-
-    <!-- Drawer + Theme + Scrollspy logic -->
-    <script>
-      const root = document.documentElement;
-      const body = document.body;
-      const sidebar = document.getElementById("sidebar");
-      const backdrop = document.getElementById("backdrop");
-      const openBtn = document.getElementById("menu-open");
-      const closeBtn = document.getElementById("menu-close");
-
-      function syncThemeIcons(sun, moon, label) {
-        const isDark = root.classList.contains("dark");
-        if (sun && moon) {
-          sun.style.display = isDark ? "block" : "none";
-          moon.style.display = isDark ? "none" : "block";
-        }
-        if (label) label.textContent = isDark ? "Light" : "Dark";
-      }
-      function setTheme(mode) {
-        if (mode === "dark") root.classList.add("dark");
-        else root.classList.remove("dark");
-        localStorage.setItem("theme", mode);
-        syncThemeIcons(
-          document.getElementById("icon-sun"),
-          document.getElementById("icon-moon"),
-          document.getElementById("theme-label")
-        );
-        syncThemeIcons(
-          document.getElementById("icon-sun-top"),
-          document.getElementById("icon-moon-top")
-        );
-      }
-      // Theme buttons
-      document.getElementById("theme-toggle").addEventListener("click", () => {
-        const dark = root.classList.toggle("dark");
-        localStorage.setItem("theme", dark ? "dark" : "light");
-        setTheme(dark ? "dark" : "light");
-      });
-      document
-        .getElementById("theme-toggle-top")
-        .addEventListener("click", () => {
-          const dark = root.classList.toggle("dark");
-          localStorage.setItem("theme", dark ? "dark" : "light");
-          setTheme(dark ? "dark" : "light");
-        });
-      setTheme(root.classList.contains("dark") ? "dark" : "light");
-
-      // Drawer controls
-      function openDrawer() {
-        sidebar.classList.add("open");
-        backdrop.classList.add("show");
-        body.classList.add("no-scroll");
-        openBtn.setAttribute("aria-expanded", "true");
-      }
-      function closeDrawer() {
-        sidebar.classList.remove("open");
-        backdrop.classList.remove("show");
-        body.classList.remove("no-scroll");
-        openBtn.setAttribute("aria-expanded", "false");
-      }
-      openBtn.addEventListener("click", openDrawer);
-      closeBtn.addEventListener("click", closeDrawer);
-      backdrop.addEventListener("click", closeDrawer);
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeDrawer();
-      });
-      // Close drawer on nav click
-      document
-        .querySelectorAll(".nav a")
-        .forEach((a) => a.addEventListener("click", closeDrawer));
-
-      // Follow system if no manual preference
-      const mql = window.matchMedia("(prefers-color-scheme: dark)");
-      mql.addEventListener?.("change", (e) => {
-        if (!localStorage.getItem("theme"))
-          setTheme(e.matches ? "dark" : "light");
-      });
-    </script>
-
-    <!-- Inject data + badges + scrollspy -->
-    <script type="module">
-      import {
-        personalInfo,
-        workExperience,
-        education,
-        skills,
-        projects,
-        awards,
-      } from "./data.js";
-      const $ = (s) => document.querySelector(s);
-
-      // Identity
-      $("#photo").src = personalInfo.profilePicture || "./donwload.jpeg";
-      $("#side-photo").src = personalInfo.profilePicture || "./donwload.jpeg";
-      $("#nama").textContent = personalInfo.name || "Your Name";
-      $("#side-name").textContent = personalInfo.name || "Your Name";
-      $("#tentang-text").textContent =
-        personalInfo.heroDescription || $("#tentang-text").textContent;
-
-      const meta = $("#meta");
-      meta.innerHTML = `
-      ${
-        personalInfo.location
-          ? `<span class="pill">${personalInfo.location}</span>`
-          : ""
-      }
-      ${
-        personalInfo.email
-          ? `<span class="pill">${personalInfo.email}</span>`
-          : ""
-      }
-      ${personalInfo.github ? `<span class="pill">GitHub</span>` : ""}
-      ${personalInfo.linkedin ? `<span class="pill">LinkedIn</span>` : ""}
-    `;
-      $("#side-role").textContent = personalInfo.location || "—";
-
-      // Pendidikan
-      $("#pendidikan-list").innerHTML = education
-        .map(
-          (ed) => `
-          <article class="project-card" style="margin-bottom:.8rem">
-            <div class="project-head">
-              <div>
-                <div class="project-title">      
-                    <strong>${ed.institution}</strong> — ${ed.degree} (${
-            ed.period
-          })<br/>
-                      </div>
-                      <small>${ed.location} • ${ed.period}</small>
-                
-        ${
-          ed.achievements?.length
-            ? `<ul>${ed.achievements.map((a) => `<li>${a}</li>`).join("")}</ul>`
-            : ""
-        }
-        </div>
-    `
-        )
-        .join("");
-
-      // Pengalaman
-      $("#pengalaman-list").innerHTML = workExperience
-        .map(
-          (w) => `
-      <article class="project-card" style="margin-bottom:.8rem">
-        <div class="project-head">
-          <div>
-            <div class="project-title">${w.position} — ${w.company}</div>
-            <small>${w.location} • ${w.period}</small>
+          <p class="proj-desc">
+            API backend untuk layanan pesan‑antar makanan di Aceh Utara. Fitur
+            utama: autentikasi JWT, manajemen menu & pesanan, dashboard admin
+            sederhana.
+          </p>
+          <button class="more-btn" type="button">Selengkapnya…</button>
+          <div class="chips">
+            <span class="chip">Laravel</span><span class="chip">REST API</span
+            ><span class="chip">Dashboard</span>
           </div>
-        </div>
-        ${
-          w.achievements?.length
-            ? `<ul class="project-desc">${w.achievements
-                .map((a) => `<li>${a}</li>`)
-                .join("")}</ul>`
-            : ""
-        }
-      </article>
-    `
-        )
-        .join("");
+        </article>
 
-      // Skills
-      const chip = (arr = []) =>
-        arr.map((s) => `<span class="chip">${s}</span>`).join("");
-      const skillsArr = Object.entries(skills);
-      $("#skills-grid").innerHTML = skillsArr
-        .map(
-          ([k, v]) => `
-      <div class="skill-block">
-        <div class="skill-title">${k
-          .replace(/([A-Z])/g, " $1")
-          .replace(/^./, (s) => s.toUpperCase())}</div>
-        <div>${chip(v)}</div>
+        <article class="card project-card">
+          <div class="thumb">
+            <img
+              src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
+              alt="Agriculture Marketplace"
+            />
+          </div>
+          <div class="proj-head">
+            <h3 class="proj-title">Agriculture Marketplace</h3>
+            <div class="proj-links">
+              <a href="#" title="Demo"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
+                  alt="Demo"
+              /></a>
+            </div>
+          </div>
+          <p class="proj-desc">
+            Marketplace sederhana untuk komoditas pertanian lokal. Dibangun
+            untuk membantu petani dan vendor dalam memasarkan produk melalui
+            katalog online.
+          </p>
+          <button class="more-btn" type="button">Selengkapnya…</button>
+          <div class="chips">
+            <span class="chip">HTML</span><span class="chip">CSS</span
+            ><span class="chip">Laravel</span>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="thumb">
+            <img
+              src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
+              alt="Explainable AI Notes"
+            />
+          </div>
+          <div class="proj-head">
+            <h3 class="proj-title">Explainable AI Notes</h3>
+            <div class="proj-links">
+              <a href="#" title="Slides"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
+                  alt="Slides"
+              /></a>
+            </div>
+          </div>
+          <p class="proj-desc">
+            Catatan eksperimen riset Explainable AI: membandingkan SHAP & LIME
+            untuk menjelaskan model machine learning sederhana dengan dataset
+            terbatas.
+          </p>
+          <button class="more-btn" type="button">Selengkapnya…</button>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">SHAP</span
+            ><span class="chip">LIME</span>
+          </div>
+        </article>
       </div>
-    `
-        )
-        .join("");
-      // Badges
-      const totalSkills = skillsArr.reduce(
-        (sum, [, list]) => sum + (list?.length || 0),
-        0
-      );
-      const badgeSkills = document.getElementById("badge-skills");
-      if (badgeSkills) badgeSkills.textContent = totalSkills;
+    </section>
 
-      $("#projects-wrap").innerHTML = projects
-        .map(
-          (p) => `
-      <article class="project-card">
-        <div class="project-head">
-          <div class="project-title">${p.title}</div>
-          ${
-            p.github
-              ? `<a class="project-link" target="_blank" rel="noopener" href="${p.github}">Lihat</a>`
-              : ""
-          }
+    <section id="contact">
+      <div class="card">
+        <h2>Contact</h2>
+        <div class="contact-grid">
+          <form id="contactForm" novalidate>
+            <div class="input-wrap">
+              <span class="input-icon"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png"
+                  alt="Nama"
+              /></span>
+              <input
+                id="cf-name"
+                class="input"
+                name="name"
+                type="text"
+                placeholder="Nama lengkap"
+                required
+              />
+            </div>
+            <div class="input-wrap">
+              <span class="input-icon"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
+                  alt="Email"
+              /></span>
+              <input
+                id="cf-email"
+                class="input"
+                name="email"
+                type="email"
+                placeholder="Alamat email"
+                required
+              />
+            </div>
+            <div class="input-wrap" style="grid-column: 1/-1">
+              <span class="input-icon"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png"
+                  alt="Pesan"
+              /></span>
+              <textarea
+                id="cf-message"
+                class="input"
+                name="message"
+                placeholder="Tuliskan pesan singkat / kebutuhan kamu"
+                required
+              ></textarea>
+            </div>
+            <button id="cf-submit" class="btn-primary" type="submit">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png"
+                alt="Send"
+                style="width: 18px; height: 18px"
+              />
+              Kirim
+            </button>
+            <div
+              id="cf-alert"
+              class="alert"
+              role="status"
+              aria-live="polite"
+            ></div>
+            <p class="form-note">
+              Respon biasanya <strong>< 24 jam</strong>. Email tidak akan
+              dibagikan ke pihak lain.
+            </p>
+          </form>
+
+          <aside class="contact-aside">
+            <div class="mini">
+              <h4>Prefer DM?</h4>
+              <div class="contact-icons">
+                <a href="mailto:hazhiyahy@gmail.com" title="Email"
+                  ><img
+                    src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
+                    alt="Email"
+                /></a>
+                <a
+                  href="https://github.com/hazhyni"
+                  target="_blank"
+                  title="GitHub"
+                  ><img
+                    src="https://cdn-icons-png.flaticon.com/512/733/733553.png"
+                    alt="GitHub"
+                /></a>
+                <a
+                  href="https://linkedin.com/in/hazhiyah"
+                  target="_blank"
+                  title="LinkedIn"
+                  ><img
+                    src="https://cdn-icons-png.flaticon.com/512/3536/3536505.png"
+                    alt="LinkedIn"
+                /></a>
+              </div>
+            </div>
+            <div class="mini">
+              <h4>Availability</h4>
+              <p>Open to freelance/remote collaboration.</p>
+            </div>
+          </aside>
         </div>
-        <ul class="project-desc">${p.description
-          .map((d) => `<li>${d}</li>`)
-          .join("")}</ul>
-      </article>
-    `
-        )
-        .join("");
-      const badgeProjects = document.getElementById("badge-projects");
-      if (badgeProjects) badgeProjects.textContent = projects.length;
+      </div>
+    </section>
 
-      $("#awards-list").innerHTML = awards?.length
-        ? awards
-            .map(
-              (a) => `
-      <li><strong>${a.name}</strong> — ${a.issuer} (${a.date})<br/><small>${a.type} • ${a.position}</small></li>
-    `
-            )
-            .join("")
-        : "<li>—</li>";
+    <footer>© <span id="year"></span> Hazhyni — crafted in glass ✨</footer>
 
-      // Scrollspy
-      const sectionIds = [
-        "tentang",
-        "pendidikan",
-        "pengalaman",
-        "skills",
-        "projects",
-        "awards",
-        "kontak",
-      ];
-      const sections = sectionIds.map((id) => document.getElementById(id));
-      const navLinks = [...document.querySelectorAll(".nav a")];
-
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) {
-              const id = e.target.id;
-              navLinks.forEach((a) =>
-                a.classList.toggle(
-                  "active",
-                  a.getAttribute("href") === "#" + id
-                )
-              );
-            }
-          });
-        },
-        { rootMargin: "-35% 0px -55% 0px", threshold: 0.01 }
-      );
-
-      sections.forEach((s) => io.observe(s));
-
-      // Identity (with safe fallback)
-      const fallbackHero = "./donwload.jpeg";
-      const fallbackSide = "./donwload.jpeg";
-
-      const heroImg = document.getElementById("photo");
-      const sideImg = document.getElementById("side-photo");
-
-      // pilih sumber dari data, kalau kosong pakai yang di HTML
-      const heroSrc =
-        personalInfo.profilePicture ||
-        heroImg.getAttribute("src") ||
-        fallbackHero;
-      const sideSrc =
-        personalInfo.profilePicture ||
-        sideImg.getAttribute("src") ||
-        fallbackSide;
-
-      function setSafeSrc(imgEl, src, fallback) {
-        imgEl.src = src;
-        imgEl.onerror = () => {
-          imgEl.onerror = null;
-          imgEl.src = fallback;
-        };
-      }
-
-      setSafeSrc(heroImg, heroSrc, fallbackHero);
-      setSafeSrc(sideImg, sideSrc, fallbackSide);
-
-      document.getElementById("nama").textContent =
-        personalInfo.name || "Your Name";
-      document.getElementById("side-name").textContent =
-        personalInfo.name || "Your Name";
-      document.getElementById("tentang-text").textContent =
-        personalInfo.heroDescription ||
-        document.getElementById("tentang-text").textContent;
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
-      // ganti value berikut sesuai akun EmailJS kamu
-      const EMAILJS_PUBLIC_KEY = "EmjAb8QefCpJ1p2PD";
-      const EMAILJS_SERVICE_ID = "service_z7zaw2f";
-      const EMAILJS_TEMPLATE_ID = "template_7jgzz38";
+      // Footer year
+      document.getElementById("year").textContent = new Date().getFullYear();
 
-      // init EmailJS
-      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      // Sticky nav background
+      const nav = document.getElementById("topnav");
+      const onScroll = () =>
+        nav.classList.toggle("scrolled", window.scrollY > 12);
+      onScroll();
+      window.addEventListener("scroll", onScroll);
 
-      // handler form
-      window.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("contact-form");
-        const btn = document.getElementById("cf-submit");
-        const alertBox = document.getElementById("cf-alert");
+      // Theme toggle
+      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+      const stored = localStorage.getItem("theme");
+      function applyTheme(mode) {
+        document.documentElement.setAttribute("data-theme", mode);
+        const isLight = mode === "light";
+        document.getElementById("iconSun").style.display = isLight
+          ? "none"
+          : "block";
+        document.getElementById("iconMoon").style.display = isLight
+          ? "block"
+          : "none";
+        document.getElementById("themeLabel").textContent = isLight
+          ? "Dark"
+          : "Light";
+      }
+      applyTheme(stored || (prefersDark ? "dark" : "light"));
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const current =
+          document.documentElement.getAttribute("data-theme") || "dark";
+        const next = current === "light" ? "dark" : "light";
+        applyTheme(next);
+        localStorage.setItem("theme", next);
+      });
 
-        function showAlert(msg, ok = true) {
-          alertBox.textContent = msg;
-          alertBox.className = "alert show " + (ok ? "ok" : "err");
-        }
-
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-
-          // validasi sederhana
-          const name = document.getElementById("cf-name").value.trim();
-          const email = document.getElementById("cf-email").value.trim();
-          const message = document.getElementById("cf-message").value.trim();
-          if (!name || !email || !message) {
-            showAlert("Fill all form please 🙏", false);
-            return;
-          }
-
-          btn.disabled = true;
-          btn.textContent = "Sending...";
-
-          try {
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-              from_name: name,
-              from_email: email,
-              message: message,
-            });
-            showAlert("Sent! Thanks, I'll reply ASAP. 🚀", true);
-            form.reset();
-          } catch (err) {
-            console.error(err);
-            showAlert("Failed. Please try again later", false);
-          } finally {
-            btn.disabled = false;
-            btn.textContent = "Kirim";
+      // Read more (Projects)
+      function initReadMore() {
+        document.querySelectorAll(".project-card").forEach((card) => {
+          const desc = card.querySelector(".proj-desc");
+          const btn = card.querySelector(".more-btn");
+          if (!desc || !btn) return;
+          card.classList.remove("expanded");
+          const needsMore = desc.scrollHeight > desc.clientHeight + 2;
+          if (needsMore) {
+            btn.style.display = "inline-flex";
+            btn.onclick = () => {
+              const exp = card.classList.toggle("expanded");
+              btn.textContent = exp ? "Sembunyikan" : "Selengkapnya…";
+            };
+          } else {
+            btn.style.display = "none";
           }
         });
+      }
+      window.addEventListener("load", initReadMore);
+      window.addEventListener("resize", () => {
+        clearTimeout(window.__clampT);
+        window.__clampT = setTimeout(initReadMore, 150);
       });
-    </script>
 
-    <script>
-      var canvas = document.querySelector("canvas"),
-        ctx = canvas.getContext("2d");
-
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      var letters =
-        "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUVÜYZabcçdefgğhıijklmnoöprsştuvüyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя";
-      letters = letters.split("");
-
-      var fontSize = 10,
-        columns = canvas.width / fontSize;
-
-      var drops = [];
-      for (var i = 0; i < columns; i++) {
-        drops[i] = 1;
+      // Contact form pseudo-submit with validation
+      const form = document.getElementById("contactForm");
+      const alertBox = document.getElementById("cf-alert");
+      const btn = document.getElementById("cf-submit");
+      function showAlert(msg, ok = true) {
+        alertBox.textContent = msg;
+        alertBox.className = "alert " + (ok ? "ok" : "err");
       }
-
-      function draw() {
-        ctx.fillStyle = "rgba(0, 0, 0, .1)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.font = fontSize + "px monospace";
-        ctx.textAlign = "center";
-
-        for (var i = 0; i < drops.length; i++) {
-          var text = letters[Math.floor(Math.random() * letters.length)];
-          ctx.fillStyle = "#0f0";
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-          drops[i]++;
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
-            drops[i] = 0;
-          }
+      form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = document.getElementById("cf-name").value.trim();
+        const email = document.getElementById("cf-email").value.trim();
+        const message = document.getElementById("cf-message").value.trim();
+        if (!name || !email || !message) {
+          showAlert("Lengkapi semua field, ya 🙏", false);
+          return;
         }
-      }
-
-      setInterval(draw, 33);
+        btn.disabled = true;
+        btn.innerHTML = "Mengirim…";
+        try {
+          await new Promise((r) => setTimeout(r, 900));
+          showAlert(
+            "Terkirim! Terima kasih, akan kubalas secepatnya. 🚀",
+            true
+          );
+          form.reset();
+          let t = document.querySelector(".toast");
+          if (!t) {
+            t = document.createElement("div");
+            t.className = "toast";
+            t.textContent = "Message sent ✨";
+            document.body.appendChild(t);
+          }
+          t.classList.add("show");
+          setTimeout(() => t.classList.remove("show"), 1800);
+        } catch (err) {
+          console.error(err);
+          showAlert("Gagal mengirim. Coba lagi ya.", false);
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML =
+            '<img src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" alt="Send" style="width:18px;height:18px"> Kirim';
+        }
+      });
     </script>
   </body>
 </html>
