@@ -438,9 +438,21 @@
         color: var(--muted);
         background: var(--nav);
       }
+
+      canvas#background-canvas {
+        position: fixed; /* tetap di tempat saat scroll */
+        top: 0;
+        left: 0;
+        width: 100vw; /* lebar viewport */
+        height: 100vh; /* tinggi viewport */
+        z-index: -1; /* di belakang konten */
+        display: block; /* hilangkan spasi bawah default canvas */
+        background: black; /* warna dasar */
+      }
     </style>
   </head>
   <body>
+    <canvas id="background-canvas"></canvas>
     <nav id="topnav">
       <div class="brand"><span class="brand-dot"></span> Hazhiyah Yumni</div>
       <div class="links">
@@ -482,8 +494,11 @@
       <div class="card">
         <h2>About Me</h2>
         <p>
-          Latar belakang Sistem Informasi, pengalaman admin proyek & tender,
-          fokus pada web development dan riset AI kecil‑kecilan.
+          I’m Hazhiyah Yumni, an Information Systems graduate with hands-on
+          experience in software development, project administration, and
+          data-driven research. This portfolio showcases my work, journey, and
+          growing passion for technology, especially software engineering and
+          artificial intelligence.
         </p>
       </div>
     </section>
@@ -500,21 +515,21 @@
             Frontend
           </h3>
           <p>
-            Membuat antarmuka interaktif dan responsif menggunakan HTML, CSS,
-            Tailwind, dan React.
+            Building interactive and responsive user interfaces using HTML, CSS,
+            Tailwind, and React.
           </p>
         </div>
         <div class="card">
           <h3>
             <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg"
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg"
               alt="Laravel"
             />
             Backend
           </h3>
           <p>
-            Membangun server dan API dengan Laravel & REST API untuk aplikasi
-            yang stabil dan scalable.
+            Developing servers and APIs with Laravel & REST API for stable and
+            scalable applications.
           </p>
         </div>
         <div class="card">
@@ -526,8 +541,8 @@
             Tools
           </h3>
           <p>
-            Menguasai Git, manajemen database MySQL, serta desain prototipe
-            menggunakan Figma.
+            Proficient in Git, MySQL database management, and prototype design
+            with Figma.
           </p>
         </div>
         <div class="card">
@@ -539,8 +554,8 @@
             Research
           </h3>
           <p>
-            Menggunakan Python serta teknik explainable AI (SHAP/LIME) untuk
-            analisis data dan riset sederhana.
+            Applying Python and explainable AI techniques (SHAP/LIME) for data
+            analysis and basic research.
           </p>
         </div>
       </div>
@@ -571,7 +586,7 @@
             utama: autentikasi JWT, manajemen menu & pesanan, dashboard admin
             sederhana.
           </p>
-          <button class="more-btn" type="button">Selengkapnya…</button>
+          <button class="more-btn" type="button">Details</button>
           <div class="chips">
             <span class="chip">Laravel</span><span class="chip">REST API</span
             ><span class="chip">Dashboard</span>
@@ -600,7 +615,7 @@
             untuk membantu petani dan vendor dalam memasarkan produk melalui
             katalog online.
           </p>
-          <button class="more-btn" type="button">Selengkapnya…</button>
+          <button class="more-btn" type="button">Details</button>
           <div class="chips">
             <span class="chip">HTML</span><span class="chip">CSS</span
             ><span class="chip">Laravel</span>
@@ -629,7 +644,7 @@
             untuk menjelaskan model machine learning sederhana dengan dataset
             terbatas.
           </p>
-          <button class="more-btn" type="button">Selengkapnya…</button>
+          <button class="more-btn" type="button">Details</button>
           <div class="chips">
             <span class="chip">Python</span><span class="chip">SHAP</span
             ><span class="chip">LIME</span>
@@ -654,7 +669,7 @@
                 class="input"
                 name="name"
                 type="text"
-                placeholder="Nama lengkap"
+                placeholder="Your Name"
                 required
               />
             </div>
@@ -669,7 +684,7 @@
                 class="input"
                 name="email"
                 type="email"
-                placeholder="Alamat email"
+                placeholder="Your Email"
                 required
               />
             </div>
@@ -683,12 +698,12 @@
                 id="cf-message"
                 class="input"
                 name="message"
-                placeholder="Tuliskan pesan singkat / kebutuhan kamu"
+                placeholder="Write short message / your needs"
                 required
               ></textarea>
             </div>
             <button id="cf-submit" class="btn-primary" type="submit">
-              Kirim
+              Send
             </button>
             <div
               id="cf-alert"
@@ -697,8 +712,8 @@
               aria-live="polite"
             ></div>
             <p class="form-note">
-              Respon biasanya <strong>< 24 jam</strong>. Email tidak akan
-              dibagikan ke pihak lain.
+              I'll respond you <strong>immediately</strong>. Your information
+              will be safe
             </p>
           </form>
 
@@ -706,7 +721,7 @@
             <div class="mini">
               <h4>Prefer DM?</h4>
               <div class="contact-icons">
-                <a href="mailto:hazhiyahy@gmail.com" title="Email"
+                <a href="mailto:hazhiyahy4@gmail.com" title="Email"
                   ><img
                     src="https://cdn-icons-png.flaticon.com/512/561/561127.png"
                     alt="Email"
@@ -788,7 +803,7 @@
             btn.style.display = "inline-flex";
             btn.onclick = () => {
               const exp = card.classList.toggle("expanded");
-              btn.textContent = exp ? "Sembunyikan" : "Selengkapnya…";
+              btn.textContent = exp ? "Hide" : "Details";
             };
           } else {
             btn.style.display = "none";
@@ -832,7 +847,7 @@
           }
 
           btn.disabled = true;
-          btn.innerHTML = "Mengirim…";
+          btn.innerHTML = "Sending...";
 
           try {
             await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
@@ -851,10 +866,67 @@
           } finally {
             btn.disabled = false;
             btn.innerHTML =
-              '<button id="cf-submit" class="btn-primary" type="submit"> Kirim </button>';
+              '<button id="cf-submit" class="btn-primary" type="submit"> Send </button>';
           }
         });
       });
+
+      var canvas = document.querySelector("canvas"),
+        ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      var letters =
+        "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUVÜYZabcçdefgğhıijklmnoöprsştuvüyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя";
+      letters = letters.split("");
+
+      var fontSize = 10,
+        columns = canvas.width / fontSize;
+
+      var drops = [];
+      for (var i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+
+      var canvas = document.querySelector("canvas"),
+        ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      var letters =
+        "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUVÜYZabcçdefgğhıijklmnoöprsştuvüyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя";
+      letters = letters.split("");
+
+      var fontSize = 10,
+        columns = canvas.width / fontSize;
+
+      var drops = [];
+      for (var i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+
+      function draw() {
+        ctx.fillStyle = "rgba(0, 0, 0, .1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.font = fontSize + "px monospace";
+        ctx.textAlign = "center";
+
+        for (var i = 0; i < drops.length; i++) {
+          var text = letters[Math.floor(Math.random() * letters.length)];
+          ctx.fillStyle = "#0f0";
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          drops[i]++;
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
+            drops[i] = 0;
+          }
+        }
+      }
+
+      setInterval(draw, 33);
     </script>
   </body>
 </html>
