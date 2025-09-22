@@ -110,7 +110,7 @@
 
       .hero {
         text-align: center;
-        padding-top: 140px;
+        padding-top: 115px;
       }
       .hero h1 {
         font-size: 2.8rem;
@@ -153,7 +153,6 @@
         border: 1px solid var(--border);
         border-radius: 16px;
         padding: 24px;
-        margin-bottom: 20px;
         --backdrop-filter: blur(12px);
         transition: all 0.3s ease;
       }
@@ -162,7 +161,179 @@
         gap: 16px;
       }
 
+      /* === About (2-column, avatar + text) === */
+      .about .about-grid {
+        display: grid;
+        gap: 22px;
+        align-items: center;
+        grid-template-columns: 1fr; /* mobile: 1 kolom */
+      }
+      @media (min-width: 860px) {
+        .about .about-grid {
+          grid-template-columns: 320px 1fr;
+        } /* desktop: 2 kolom */
+      }
+      .about .about-media {
+        display: flex;
+        justify-content: center;
+      }
+      .about .avatar {
+        width: 220px;
+        height: 220px;
+        border-radius: 999px;
+        object-fit: cover;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.35),
+          inset 0 0 0 4px rgba(255, 255, 255, 0.05);
+        background: radial-gradient(
+          120px 120px at 30% 30%,
+          rgba(var(--mint), 0.25),
+          transparent
+        );
+      }
+      .about .about-text h2 {
+        margin: 0 0 0.4rem;
+        text-align: left;
+      }
+      .about .about-text p {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--muted);
+        text-align: left;
+      }
+      .about .about-bullets {
+        list-style: none;
+        padding: 0;
+        margin: 14px 0 0;
+        display: grid;
+        gap: 10px;
+      }
+      .about .about-bullets li {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        font-weight: 600;
+      }
+      .about .about-ctas {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.78rem 1rem;
+        border-radius: 12px;
+        font-weight: 800;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--fg);
+        text-decoration: none;
+      }
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
       /* Skills */
+      /* === Skills header + tabs === */
+      .skills-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .skills-tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .skills-tabs button {
+        padding: 0.5rem 0.8rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--fg);
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .skills-tabs button[aria-pressed="true"] {
+        background: linear-gradient(
+          135deg,
+          rgba(var(--mint), 1),
+          rgba(var(--lav), 1)
+        );
+        color: #0b0f19;
+        border-color: transparent;
+      }
+
+      /* === Skill card makeover === */
+      .skill-card .sub {
+        margin: 0.2rem 0 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .skill-bullets {
+        margin: 0.6rem 0 0;
+        padding-left: 1.1rem;
+      }
+      .skill-bullets li {
+        margin: 0.25rem 0;
+      }
+      .badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 0.6rem;
+      }
+      .badge {
+        padding: 0.25rem 0.55rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border);
+      }
+
+      /* === Meter level === */
+      /* === Meter level (FIX) === */
+      .meter {
+        width: 100%;
+        margin-top: 0.6rem;
+      }
+      .meter .bar {
+        /* HAPUS baris --val:80; */
+        height: 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .meter .fill {
+        /* pakai fallback 80 kalau tidak diset */
+        width: calc(var(--val, 80) * 1%);
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          rgba(var(--mint), 1),
+          rgba(var(--lav), 1)
+        );
+        transition: width 0.6s ease;
+      }
+      .meter .label {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.3rem;
+        display: flex;
+        justify-content: space-between;
+      }
+
       .skills {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       }
@@ -207,6 +378,9 @@
       /* Projects */
       .projects {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+      .projects .project-card:only-child {
+        max-width: 280px;
       }
       .project-card {
         display: flex;
@@ -375,6 +549,7 @@
           rgba(var(--lav), 1)
         );
         cursor: pointer;
+        text-decoration: none;
       }
       .btn-primary:hover {
         filter: brightness(1.05);
@@ -581,12 +756,16 @@
         }
         .card {
           padding: 16px;
+          margin-bottom: 16px;
         }
         .skills {
           grid-template-columns: 1fr;
         }
         .projects {
           grid-template-columns: 1fr;
+        }
+        .projects .project-card:only-child {
+          max-width: none;
         }
         .contact-grid {
           grid-template-columns: 1fr;
@@ -645,22 +824,70 @@
     </section>
 
     <section id="about">
-      <div class="card">
-        <h2 align="center">About Me</h2>
-        <p align="center">
-          I’m Hazhiyah Yumni, an Information Systems graduate with hands-on
-          experience in software development, project administration, and
-          data-driven research. This portfolio showcases my work, journey, and
-          growing passion for technology, especially software engineering and
-          artificial intelligence.
-        </p>
+      <div class="card about">
+        <div class="about-grid">
+          <!-- kiri: foto/avatar -->
+          <div class="about-media">
+            <!-- ganti src di bawah dengan foto kamu -->
+            <img class="avatar" src="./profile.png" alt="Hazhiyah Yumni" />
+          </div>
+
+          <!-- kanan: teks -->
+          <div class="about-text">
+            <h2>About Me</h2>
+            <p>
+              I’m Hazhiyah Yumni, an Information Systems graduate with hands-on
+              experience in software development, project administration, and
+              data-driven research. I enjoy building reliable backends with
+              Laravel, crafting clean UIs, and exploring explainable AI for
+              practical insights.
+            </p>
+
+            <ul class="about-bullets">
+              <li>🎯 Software Engineering — Laravel, REST API, React basics</li>
+              <li>
+                📊 Research — Python, SHAP/LIME, simple analytics & dashboards
+              </li>
+              <li>
+                🗂 Project Admin — dokumentasi, koordinasi rapat, tender e-proc
+              </li>
+              <li>🌏 Availability — open to freelance/remote collaboration</li>
+            </ul>
+
+            <div class="about-ctas">
+              <!-- ganti href sesuai kebutuhan -->
+              <a class="btn-primary" href="#projects">View Projects</a>
+              <a
+                class="btn-ghost"
+                href="https://linkedin.com/in/hazhiyah"
+                target="_blank"
+                rel="noopener"
+                >LinkedIn</a
+              >
+              <a class="btn-ghost" href="mailto:hazhiyahy4@gmail.com"
+                >Email Me</a
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="skills">
-      <h2>Skills</h2>
+      <div class="skills-head">
+        <h2 style="margin: 0">Skills</h2>
+        <div class="skills-tabs" role="tablist" aria-label="Filter skills">
+          <button class="tab" data-filter="all" aria-pressed="true">All</button>
+          <button class="tab" data-filter="frontend">Frontend</button>
+          <button class="tab" data-filter="backend">Backend</button>
+          <button class="tab" data-filter="tools">Tools</button>
+          <button class="tab" data-filter="research">Research</button>
+        </div>
+      </div>
+
       <div class="grid skills">
-        <div class="card">
+        <!-- FRONTEND -->
+        <div class="card skill-card" data-cat="frontend" style="--val: 80">
           <h3>
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
@@ -668,12 +895,26 @@
             />
             Frontend
           </h3>
-          <p>
-            Building interactive and responsive user interfaces using HTML, CSS,
-            Tailwind, and React.
-          </p>
+          <p class="sub">HTML • CSS • Tailwind • React (dasar)</p>
+          <ul class="skill-bullets">
+            <li>UI responsif, komponen reusable</li>
+            <li>Blade/Tailwind utility-first styling</li>
+            <li>Integrasi API & state simpel</li>
+          </ul>
+          <div class="badges">
+            <span class="badge">HTML</span><span class="badge">CSS</span>
+            <span class="badge">Tailwind</span><span class="badge">React</span>
+          </div>
+          <div class="meter">
+            <div class="bar"><div class="fill"></div></div>
+            <div class="label">
+              <span>Level</span><span class="lvl-text"></span>
+            </div>
+          </div>
         </div>
-        <div class="card">
+
+        <!-- BACKEND -->
+        <div class="card skill-card" data-cat="backend" style="--val: 85">
           <h3>
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg"
@@ -681,12 +922,26 @@
             />
             Backend
           </h3>
-          <p>
-            Developing servers and APIs with Laravel & REST API for stable and
-            scalable applications.
-          </p>
+          <p class="sub">Laravel • REST API • Auth • CRUD</p>
+          <ul class="skill-bullets">
+            <li>Routing, Eloquent, resource controllers</li>
+            <li>JWT/session auth, validation & policy</li>
+            <li>Dashboard admin & pagination</li>
+          </ul>
+          <div class="badges">
+            <span class="badge">Laravel</span><span class="badge">REST</span>
+            <span class="badge">MySQL</span><span class="badge">JWT</span>
+          </div>
+          <div class="meter">
+            <div class="bar"><div class="fill"></div></div>
+            <div class="label">
+              <span>Level</span><span class="lvl-text"></span>
+            </div>
+          </div>
         </div>
-        <div class="card">
+
+        <!-- TOOLS -->
+        <div class="card skill-card" data-cat="tools" style="--val: 90">
           <h3>
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
@@ -694,12 +949,26 @@
             />
             Tools
           </h3>
-          <p>
-            Proficient in Git, MySQL database management, and prototype design
-            with Figma.
-          </p>
+          <p class="sub">Git • MySQL • Figma • EmailJS</p>
+          <ul class="skill-bullets">
+            <li>Git flow (branching, PR, conflict)</li>
+            <li>Schema & indexing dasar MySQL</li>
+            <li>Prototyping low-fi/hi-fi</li>
+          </ul>
+          <div class="badges">
+            <span class="badge">Git</span><span class="badge">MySQL</span>
+            <span class="badge">Figma</span><span class="badge">CLI</span>
+          </div>
+          <div class="meter">
+            <div class="bar"><div class="fill"></div></div>
+            <div class="label">
+              <span>Level</span><span class="lvl-text"></span>
+            </div>
+          </div>
         </div>
-        <div class="card">
+
+        <!-- RESEARCH -->
+        <div class="card skill-card" data-cat="research" style="--val: 80">
           <h3>
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
@@ -707,10 +976,33 @@
             />
             Research
           </h3>
-          <p>
-            Applying Python and explainable AI techniques (SHAP/LIME) for data
-            analysis and basic research.
-          </p>
+          <p class="sub">Python • SHAP/LIME • Data Viz</p>
+          <ul class="skill-bullets">
+            <li>RFM pipeline & dashboard (Streamlit)</li>
+            <li>Explainable AI untuk insight sederhana</li>
+            <li>Cleaning, EDA, basic viz</li>
+          </ul>
+          <div class="badges">
+            <span class="badge">Python</span><span class="badge">Pandas</span>
+            <span class="badge">SHAP</span><span class="badge">LIME</span>
+          </div>
+          <div class="meter">
+            <div class="bar"><div class="fill"></div></div>
+            <div class="label">
+              <span>Level</span><span class="lvl-text"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- optional: learning row -->
+      <div class="card" style="margin-top: 12px">
+        <strong>Currently learning:</strong>
+        <div class="badges" style="margin-top: 0.5rem">
+          <span class="badge">React Hooks</span>
+          <span class="badge">Tailwind Components</span>
+          <span class="badge">Charting</span>
+          <span class="badge">API Testing</span>
         </div>
       </div>
     </section>
@@ -747,8 +1039,10 @@
           </p>
           <button class="more-btn" type="button">Details</button>
           <div class="chips">
+            <span class="chip">PHP</span>
             <span class="chip">Laravel</span><span class="chip">REST API</span
-            ><span class="chip">Dashboard</span>
+            ><span class="chip">Dashboard</span><span class="chip">Dart</span
+            ><span class="chip">Flutter</span>
           </div>
         </article>
 
@@ -762,11 +1056,12 @@
           <div class="proj-head">
             <h3 class="proj-title">Agriculture Marketplace</h3>
             <div class="proj-links">
-              <a href="https://github.com/hazhyni" title="Projects"
-                ><img
+              <a href="https://github.com/hazhyni" title="Projects">
+                <img
                   src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
                   alt="Projects"
-              /></a>
+                />
+              </a>
             </div>
           </div>
           <p class="proj-desc">
@@ -776,15 +1071,17 @@
           </p>
           <button class="more-btn" type="button">Details</button>
           <div class="chips">
-            <span class="chip">HTML</span><span class="chip">CSS</span
-            ><span class="chip">Laravel</span>
+            <span class="chip">CSS</span>
+            <span class="chip">Bootstrap</span>
+            <span class="chip">Materialize</span>
+            <span class="chip">JavaScript</span>
           </div>
         </article>
 
         <article class="card project-card">
           <div class="thumb">
             <img
-              src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop"
               alt="Data Analysis E-Commerce"
             />
           </div>
@@ -794,10 +1091,12 @@
               <a
                 href="https://yumni-data-analysis-ecom.streamlit.app/"
                 title="Demo"
-                ><img
+              >
+                <img
                   src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
                   alt="Demo"
-              /></a>
+                />
+              </a>
             </div>
           </div>
           <p class="proj-desc">
@@ -807,28 +1106,29 @@
           </p>
           <button class="more-btn" type="button">Details</button>
           <div class="chips">
-            <span class="chip">Python</span><span class="chip">SHAP</span
-            ><span class="chip">LIME</span>
+            <span class="chip">Python</span>
+            <span class="chip">Data Analysis</span>
+            <span class="chip">Dashboard</span>
+            <span class="chip">Streamlit</span>
           </div>
         </article>
 
         <article class="card project-card">
           <div class="thumb">
             <img
-              src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
               alt="Sentiment Analysis — Umma"
             />
           </div>
           <div class="proj-head">
             <h3 class="proj-title">Sentiment Analysis — Umma App</h3>
             <div class="proj-links">
-              <a
-                href="https://yumni-data-analysis-ecom.streamlit.app/"
-                title="Demo"
-                ><img
+              <a href="#" title="Demo">
+                <img
                   src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
                   alt="Demo"
-              /></a>
+                />
+              </a>
             </div>
           </div>
           <p class="proj-desc">
@@ -838,28 +1138,29 @@
           </p>
           <button class="more-btn" type="button">Details</button>
           <div class="chips">
-            <span class="chip">Python</span><span class="chip">SHAP</span
-            ><span class="chip">LIME</span>
+            <span class="chip">Python</span>
+            <span class="chip">Machine Learning</span>
+            <span class="chip">Jupyter Notebook</span>
+            <span class="chip">Google Colab</span>
           </div>
         </article>
 
         <article class="card project-card">
           <div class="thumb">
             <img
-              src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200&auto=format&fit=crop"
               alt="Sentiment Analysis — X"
             />
           </div>
           <div class="proj-head">
             <h3 class="proj-title">Sentiment Analysis — X (Twitter)</h3>
             <div class="proj-links">
-              <a
-                href="https://yumni-data-analysis-ecom.streamlit.app/"
-                title="Demo"
-                ><img
+              <a href="#" title="Demo">
+                <img
                   src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
                   alt="Demo"
-              /></a>
+                />
+              </a>
             </div>
           </div>
           <p class="proj-desc">
@@ -869,28 +1170,29 @@
           </p>
           <button class="more-btn" type="button">Details</button>
           <div class="chips">
-            <span class="chip">Python</span><span class="chip">SHAP</span
-            ><span class="chip">LIME</span>
+            <span class="chip">Python</span>
+            <span class="chip">Machine Learning</span>
+            <span class="chip">Jupyter Notebook</span>
+            <span class="chip">Google Colab</span>
           </div>
         </article>
 
         <article class="card project-card">
           <div class="thumb">
             <img
-              src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
-              alt="Sentiment Analysis — X"
+              src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=1200&auto=format&fit=crop"
+              alt="Sentiment Analysis — Crypto Policy"
             />
           </div>
           <div class="proj-head">
-            <h3 class="proj-title">Sentiment Analysis — X (Twitter)</h3>
+            <h3 class="proj-title">Sentiment Analysis — Crypto Policy</h3>
             <div class="proj-links">
-              <a
-                href="https://yumni-data-analysis-ecom.streamlit.app/"
-                title="Demo"
-                ><img
+              <a href="#" title="Demo">
+                <img
                   src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
                   alt="Demo"
-              /></a>
+                />
+              </a>
             </div>
           </div>
           <p class="proj-desc">
@@ -900,8 +1202,31 @@
           </p>
           <button class="more-btn" type="button">Details</button>
           <div class="chips">
-            <span class="chip">Python</span><span class="chip">SHAP</span
-            ><span class="chip">LIME</span>
+            <span class="chip">Python</span>
+            <span class="chip">SHAP</span>
+            <span class="chip">LIME</span>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="thumb">
+            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=1200&auto=format&fit=crop" alt="Portfolio Website">
+          </div>
+          <div class="proj-head">
+            <h3 class="proj-title">Portfolio Website</h3>
+            <div class="proj-links">
+              <a href="https://github.com/hazhyni/hazhyni.github.io" title="Repository">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733609.png" alt="Repository">
+              </a>
+            </div>
+          </div>
+          <p class="proj-desc">Modern glass-morphism portfolio website with responsive design, dark/light theme toggle, and interactive animations. Built with vanilla HTML, CSS, and JavaScript.</p>
+          <button class="more-btn" type="button">Details</button>
+          <div class="chips">
+            <span class="chip">HTML</span>
+            <span class="chip">CSS</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">Responsive</span>
           </div>
         </article>
       </div>
@@ -1099,31 +1424,16 @@
         localStorage.setItem("theme", next);
       });
 
-      // Read more (Projects)
-      function initReadMore() {
-        document.querySelectorAll(".project-card").forEach((card) => {
-          const desc = card.querySelector(".proj-desc");
-          const btn = card.querySelector(".more-btn");
-          if (!desc || !btn) return;
-
-          card.classList.remove("expanded");
-          const needsMore = desc.scrollHeight > desc.clientHeight + 2;
-          btn.style.display = needsMore ? "inline-flex" : "none";
-
-          if (needsMore) {
-            btn.onclick = () => {
-              const exp = card.classList.toggle("expanded");
-              btn.textContent = exp ? "Hide" : "Details";
-            };
-          }
+      // Details button functionality
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".more-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const card = btn.closest(".project-card");
+            const desc = card.querySelector(".proj-desc");
+            const isExpanded = card.classList.toggle("expanded");
+            btn.textContent = isExpanded ? "Hide" : "Details";
+          });
         });
-      }
-
-      window.addEventListener("load", initReadMore);
-      let resizeTimeout;
-      window.addEventListener("resize", () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(initReadMore, 150);
       });
 
       // EMAIL (replace with your own EmailJS creds if needed)
@@ -1137,9 +1447,11 @@
       const form = document.getElementById("contact-form");
       const btn = document.getElementById("cf-submit");
       const alertBox = document.getElementById("cf-alert");
-      const nameField = document.getElementById("cf-name");
-      const emailField = document.getElementById("cf-email");
-      const messageField = document.getElementById("cf-message");
+      const [nameField, emailField, messageField] = [
+        "cf-name",
+        "cf-email",
+        "cf-message",
+      ].map((id) => document.getElementById(id));
 
       const showAlert = (msg, ok = true) => {
         alertBox.textContent = msg;
@@ -1148,9 +1460,11 @@
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const name = nameField.value.trim();
-        const email = emailField.value.trim();
-        const message = messageField.value.trim();
+        const [name, email, message] = [
+          nameField,
+          emailField,
+          messageField,
+        ].map((f) => f.value.trim());
 
         if (!name || !email || !message) {
           showAlert("Please fill out all fields 🙏", false);
@@ -1179,13 +1493,13 @@
         }
       });
 
-      // ===== Matrix Rain Background (HiDPI + Resize-safe) =====
+      // Matrix Rain Background
       const canvas = document.getElementById("background-canvas");
       const ctx = canvas.getContext("2d");
       const dpr = Math.max(1, window.devicePixelRatio || 1);
-      let fontSize = 14; // px at CSS pixels
-      let columns = 0;
-      let drops = [];
+      let fontSize = 14,
+        columns = 0,
+        drops = [];
       const letters =
         "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUVÜYZabcçdefgğhıijklmnoöprsştuvüyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя".split(
           ""
@@ -1207,27 +1521,73 @@
         ctx.font = fontSize + "px monospace";
         ctx.textAlign = "center";
       }
-      resizeCanvas();
-      window.addEventListener("resize", resizeCanvas);
 
       function draw() {
         ctx.fillStyle = "rgba(0, 0, 0, .10)";
         ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+        ctx.fillStyle = "#0f0";
         for (let i = 0; i < drops.length; i++) {
-          const text = letters[Math.floor(Math.random() * letters.length)];
-          ctx.fillStyle = "#0f0";
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          ctx.fillText(
+            letters[Math.floor(Math.random() * letters.length)],
+            i * fontSize,
+            drops[i] * fontSize
+          );
           if (
             drops[i] * fontSize > canvas.height / dpr &&
             Math.random() > 0.975
-          ) {
+          )
             drops[i] = 0;
-          }
           drops[i]++;
         }
         requestAnimationFrame(draw);
       }
+
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
       requestAnimationFrame(draw);
+    </script>
+
+    <script>
+      // Skills functionality
+      document.addEventListener("DOMContentLoaded", () => {
+        // Tabs filter
+        const tabs = document.querySelectorAll("#skills .skills-tabs button");
+        const cards = document.querySelectorAll("#skills .skill-card");
+
+        tabs.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const f = btn.dataset.filter;
+            tabs.forEach((b) => b.setAttribute("aria-pressed", "false"));
+            btn.setAttribute("aria-pressed", "true");
+            cards.forEach((c) => {
+              c.style.display =
+                f === "all" || c.dataset.cat === f ? "" : "none";
+            });
+          });
+        });
+
+        // Skill meters
+        cards.forEach((card) => {
+          const val = parseInt(
+            getComputedStyle(card).getPropertyValue("--val") || 0
+          );
+          const n = Math.max(0, Math.min(100, val));
+          const label =
+            n >= 90
+              ? "Advanced"
+              : n >= 75
+              ? "Upper-Intermediate"
+              : n >= 50
+              ? "Intermediate"
+              : n >= 40
+              ? "Basic"
+              : "Foundation";
+          const tgt = card.querySelector(".meter .lvl-text");
+          const fill = card.querySelector(".meter .fill");
+          if (tgt) tgt.textContent = `${n}% · ${label}`;
+          if (fill) fill.style.width = n + "%";
+        });
+      });
     </script>
   </body>
 </html>
