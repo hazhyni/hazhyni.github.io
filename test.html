@@ -102,22 +102,20 @@
         height: 18px;
       }
 
-      #home h1 {
-        font-size: 50pt;
-      }
-      #home p {
-        font-size: 20pt;
-      }
       section {
         padding: 10px 20px;
         max-width: 1024px;
         margin: auto;
       }
 
-      .hero .card h1 {
+      .hero {
+        text-align: center;
+        padding-top: 140px;
+      }
+      .hero h1 {
         font-size: 2.8rem;
         font-weight: 900;
-        margin: 0;
+        margin: 0 0 10px;
         line-height: 1.2;
         background: linear-gradient(90deg, #22d3ee, #a78bfa, #22d3ee);
         background-size: 300% auto;
@@ -125,22 +123,18 @@
         -webkit-text-fill-color: transparent;
         animation: shine 6s linear infinite;
       }
-      @keyframes shine {
-        0% {
-          background-position: 0% center;
-        }
-        100% {
-          background-position: 100% center;
-        }
-      }
-
-      .hero .card p {
+      .hero p {
         margin-top: 12px;
         font-size: 1.2rem;
         color: var(--muted);
         text-shadow: 0 0 10px rgba(167, 139, 250, 0.7),
           0 10px 20px rgba(34, 211, 238, 0.6);
         animation: glowPulse 3s ease-in-out infinite;
+      }
+      @keyframes shine {
+        to {
+          background-position: 100% center;
+        }
       }
       @keyframes glowPulse {
         0%,
@@ -152,22 +146,6 @@
           text-shadow: 0 0 15px rgba(167, 139, 250, 0.9),
             0 0 30px rgba(34, 211, 238, 0.8);
         }
-      }
-
-      .hero {
-        text-align: center;
-        padding-top: 140px;
-      }
-      .hero h1 {
-        font-size: 2.8rem;
-        margin: 0 0 10px;
-        background: linear-gradient(
-          90deg,
-          rgba(var(--mint), 1),
-          rgba(var(--lav), 1)
-        );
-        -webkit-background-clip: text;
-        color: transparent;
       }
 
       .card {
@@ -478,6 +456,36 @@
         height: 20px;
       }
 
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      .page-btn {
+        background: var(--card);
+        border: 1px solid var(--border);
+        color: var(--fg);
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: 0.2s;
+      }
+      .page-btn:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .page-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      #pageInfo {
+        font-weight: 600;
+        color: var(--muted);
+      }
+
       footer {
         text-align: center;
         padding: 20px;
@@ -496,6 +504,97 @@
         display: block;
         background: black;
       }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 8px;
+      }
+      .hamburger span {
+        width: 20px;
+        height: 2px;
+        background: var(--fg);
+        margin: 2px 0;
+        transition: 0.3s;
+      }
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-4px, 4px);
+      }
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-4px, -4px);
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 8px 16px;
+          height: 60px;
+        }
+        .brand {
+          font-size: 0.9rem;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .links {
+          position: fixed;
+          top: 60px;
+          right: -100%;
+          width: 100%;
+          height: calc(100vh - 60px);
+          background: var(--nav);
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          padding-top: 2rem;
+          transition: right 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+        .links.active {
+          right: 0;
+        }
+        .links a {
+          padding: 1rem 2rem;
+          font-size: 1.1rem;
+          width: 100%;
+          text-align: center;
+          border-bottom: 1px solid var(--border);
+        }
+        .toggle {
+          margin-top: 1rem;
+          padding: 0.6rem 1rem;
+        }
+        section {
+          padding: 8px 16px;
+        }
+        .hero {
+          padding-top: 100px;
+        }
+        .hero h1 {
+          font-size: 2rem;
+        }
+        .hero p {
+          font-size: 1rem;
+        }
+        .card {
+          padding: 16px;
+        }
+        .skills {
+          grid-template-columns: 1fr;
+        }
+        .projects {
+          grid-template-columns: 1fr;
+        }
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+        .input {
+          padding: 0.8rem 1rem 0.8rem 2.4rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -503,7 +602,12 @@
 
     <nav id="topnav">
       <div class="brand"><span class="brand-dot"></span> Hazhiyah Yumni</div>
-      <div class="links">
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="links" id="navLinks">
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
@@ -613,7 +717,12 @@
 
     <section id="projects">
       <h2>Projects</h2>
-      <div class="grid projects">
+      <div class="pagination">
+        <button id="prevBtn" class="page-btn">‹</button>
+        <span id="pageInfo">1 / 2</span>
+        <button id="nextBtn" class="page-btn">›</button>
+      </div>
+      <div class="grid projects" id="projectsGrid">
         <article class="card project-card">
           <div class="thumb">
             <img
@@ -764,6 +873,37 @@
             ><span class="chip">LIME</span>
           </div>
         </article>
+
+        <article class="card project-card">
+          <div class="thumb">
+            <img
+              src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
+              alt="Sentiment Analysis — X"
+            />
+          </div>
+          <div class="proj-head">
+            <h3 class="proj-title">Sentiment Analysis — X (Twitter)</h3>
+            <div class="proj-links">
+              <a
+                href="https://yumni-data-analysis-ecom.streamlit.app/"
+                title="Demo"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
+                  alt="Demo"
+              /></a>
+            </div>
+          </div>
+          <p class="proj-desc">
+            Analisis sentimen dan topik percakapan publik terkait kebijakan
+            kripto pra & pasca regulasi di Indonesia menggunakan pendekatan
+            leksikon + ML.
+          </p>
+          <button class="more-btn" type="button">Details</button>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">SHAP</span
+            ><span class="chip">LIME</span>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -875,29 +1015,81 @@
       // Footer year
       document.getElementById("year").textContent = new Date().getFullYear();
 
+      // Mobile menu
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navLinks.classList.toggle("active");
+      });
+      navLinks.addEventListener("click", (e) => {
+        if (e.target.tagName === "A") {
+          hamburger.classList.remove("active");
+          navLinks.classList.remove("active");
+        }
+      });
+
+      // Projects pagination
+      const projectsGrid = document.getElementById("projectsGrid");
+      const projects = [...projectsGrid.children];
+      const itemsPerPage = 3;
+      const totalPages = Math.ceil(projects.length / itemsPerPage);
+      let currentPage = 1;
+
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const pageInfo = document.getElementById("pageInfo");
+
+      function showPage(page) {
+        projects.forEach((project, index) => {
+          const start = (page - 1) * itemsPerPage;
+          const end = start + itemsPerPage;
+          project.style.display =
+            index >= start && index < end ? "flex" : "none";
+        });
+        pageInfo.textContent = `${page} / ${totalPages}`;
+        prevBtn.disabled = page === 1;
+        nextBtn.disabled = page === totalPages;
+      }
+
+      prevBtn.addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          showPage(currentPage);
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          showPage(currentPage);
+        }
+      });
+
+      showPage(1);
+
       // Sticky nav background
       const nav = document.getElementById("topnav");
       const onScroll = () =>
         nav.classList.toggle("scrolled", window.scrollY > 12);
       onScroll();
-      window.addEventListener("scroll", onScroll);
+      window.addEventListener("scroll", onScroll, { passive: true });
 
       // Theme toggle
       const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
       const stored = localStorage.getItem("theme");
+      const iconSun = document.getElementById("iconSun");
+      const iconMoon = document.getElementById("iconMoon");
+      const themeLabel = document.getElementById("themeLabel");
+
       function applyTheme(mode) {
         document.documentElement.setAttribute("data-theme", mode);
         const isLight = mode === "light";
-        document.getElementById("iconSun").style.display = isLight
-          ? "none"
-          : "block";
-        document.getElementById("iconMoon").style.display = isLight
-          ? "block"
-          : "none";
-        document.getElementById("themeLabel").textContent = isLight
-          ? "Dark"
-          : "Light";
+        iconSun.style.display = isLight ? "none" : "block";
+        iconMoon.style.display = isLight ? "block" : "none";
+        themeLabel.textContent = isLight ? "Dark" : "Light";
       }
+
       applyTheme(stored || (prefersDark ? "dark" : "light"));
       document.getElementById("themeToggle").addEventListener("click", () => {
         const current =
@@ -913,23 +1105,25 @@
           const desc = card.querySelector(".proj-desc");
           const btn = card.querySelector(".more-btn");
           if (!desc || !btn) return;
+
           card.classList.remove("expanded");
           const needsMore = desc.scrollHeight > desc.clientHeight + 2;
+          btn.style.display = needsMore ? "inline-flex" : "none";
+
           if (needsMore) {
-            btn.style.display = "inline-flex";
             btn.onclick = () => {
               const exp = card.classList.toggle("expanded");
               btn.textContent = exp ? "Hide" : "Details";
             };
-          } else {
-            btn.style.display = "none";
           }
         });
       }
+
       window.addEventListener("load", initReadMore);
+      let resizeTimeout;
       window.addEventListener("resize", () => {
-        clearTimeout(window.__clampT);
-        window.__clampT = setTimeout(initReadMore, 150);
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(initReadMore, 150);
       });
 
       // EMAIL (replace with your own EmailJS creds if needed)
@@ -939,47 +1133,50 @@
 
       emailjs.init(EMAILJS_PUBLIC_KEY);
 
-      window.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("contact-form");
-        const btn = document.getElementById("cf-submit");
-        const alertBox = document.getElementById("cf-alert");
+      // Contact form
+      const form = document.getElementById("contact-form");
+      const btn = document.getElementById("cf-submit");
+      const alertBox = document.getElementById("cf-alert");
+      const nameField = document.getElementById("cf-name");
+      const emailField = document.getElementById("cf-email");
+      const messageField = document.getElementById("cf-message");
 
-        function showAlert(msg, ok = true) {
-          alertBox.textContent = msg;
-          alertBox.className = "alert " + (ok ? "ok" : "err");
+      const showAlert = (msg, ok = true) => {
+        alertBox.textContent = msg;
+        alertBox.className = `alert ${ok ? "ok" : "err"}`;
+      };
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = nameField.value.trim();
+        const email = emailField.value.trim();
+        const message = messageField.value.trim();
+
+        if (!name || !email || !message) {
+          showAlert("Please fill out all fields 🙏", false);
+          return;
         }
 
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const name = document.getElementById("cf-name").value.trim();
-          const email = document.getElementById("cf-email").value.trim();
-          const message = document.getElementById("cf-message").value.trim();
-          if (!name || !email || !message) {
-            showAlert("Please fill out all fields 🙏", false);
-            return;
-          }
+        btn.disabled = true;
+        btn.textContent = "Sending...";
 
-          btn.disabled = true;
-          btn.textContent = "Sending...";
-
-          try {
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-              email,
-              name,
-              from_name: name,
-              from_email: email,
-              message,
-            });
-            showAlert("Sent! Thank you, I'll respond immediately. 🚀", true);
-            form.reset();
-          } catch (err) {
-            console.error(err);
-            showAlert("Gagal mengirim. Coba lagi ya.", false);
-          } finally {
-            btn.disabled = false;
-            btn.textContent = "Send";
-          }
-        });
+        try {
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            email,
+            name,
+            from_name: name,
+            from_email: email,
+            message,
+          });
+          showAlert("Sent! Thank you, I'll respond immediately. 🚀", true);
+          form.reset();
+        } catch (err) {
+          console.error(err);
+          showAlert("Gagal mengirim. Coba lagi ya.", false);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Send";
+        }
       });
 
       // ===== Matrix Rain Background (HiDPI + Resize-safe) =====
@@ -1001,6 +1198,7 @@
         canvas.width = Math.floor(w * dpr);
         canvas.height = Math.floor(h * dpr);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        fontSize = w < 768 ? 10 : 14;
         columns = Math.floor(w / fontSize);
         drops = Array.from(
           { length: columns },
