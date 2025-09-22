@@ -14,16 +14,16 @@
         --bg: linear-gradient(135deg, #0b0f19, #1e1b4b);
         --fg: #f8fafc;
         --muted: #cbd5e1;
-        --card: rgba(255, 255, 255, 0.05);
-        --border: rgba(255, 255, 255, 0.1);
-        --nav: rgba(17, 25, 40, 0.35);
+        --card: rgba(17, 7, 47, 0.856);
+        --border: rgba(19, 14, 14, 0.1);
+        --nav: rgba(17, 7, 47, 0.856);
         --nav-scrolled: rgba(2, 6, 23, 0.55);
       }
       html[data-theme="light"] {
         --bg: linear-gradient(135deg, #f5f7ff, #e8ecff);
-        --fg: #0b1220;
+        --fg: #000000;
         --muted: #475569;
-        --card: rgba(255, 255, 255, 0.55);
+        --card: rgba(255, 255, 255, 0.836);
         --border: rgba(2, 6, 23, 0.12);
         --nav: rgba(255, 255, 255, 0.7);
         --nav-scrolled: rgba(255, 255, 255, 0.85);
@@ -48,7 +48,7 @@
         align-items: center;
         padding: 12px 24px;
         background: var(--nav);
-        backdrop-filter: blur(10px);
+        --backdrop-filter: blur(10px);
         border-bottom: 1px solid var(--border);
         z-index: 100;
       }
@@ -102,11 +102,61 @@
         height: 18px;
       }
 
+      #home h1 {
+        font-size: 50pt;
+      }
+
+      #home p {
+        font-size: 20pt;
+      }
       section {
         padding: 10px 20px;
         max-width: 1024px;
         margin: auto;
       }
+
+      .hero .card h1 {
+        font-size: 2.8rem;
+        font-weight: 900;
+        margin: 0;
+        line-height: 1.2;
+        background: linear-gradient(90deg, #22d3ee, #a78bfa, #22d3ee);
+        background-size: 300% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 6s linear infinite;
+      }
+
+      @keyframes shine {
+        0% {
+          background-position: 0% center;
+        }
+        100% {
+          background-position: 100% center;
+        }
+      }
+
+      .hero .card p {
+        margin-top: 12px;
+        font-size: 1.2rem;
+        color: --var(--muted);
+        text-shadow: 0 0 10px rgba(167, 139, 250, 0.7),
+          0 10 20px rgba(34, 211, 238, 0.6);
+        animation: glowPulse 3s ease-in-out infinite;
+      }
+
+      @keyframes glowPulse {
+        0%,
+        100% {
+          text-shadow: 0 0 10px rgba(167, 139, 250, 0.7),
+            0 0 20px rgba(34, 211, 238, 0.6);
+        }
+        50% {
+          text-shadow: 0 0 15px rgba(167, 139, 250, 0.9),
+            0 0 30px rgba(34, 211, 238, 0.8);
+        }
+      }
+
       .hero {
         text-align: center;
         padding-top: 140px;
@@ -129,7 +179,7 @@
         border-radius: 16px;
         padding: 24px;
         margin-bottom: 20px;
-        backdrop-filter: blur(12px);
+        --backdrop-filter: blur(12px);
         transition: all 0.3s ease;
       }
       .grid {
@@ -486,14 +536,16 @@
     </nav>
 
     <section id="home" class="hero">
-      <h1>Hi, I'm Hazhiyah Yumni</h1>
-      <p>Software Engineer & Research‑Driven Builder</p>
+      <div class="card">
+        <h1>Hi, I'm Hazhiyah Yumni</h1>
+        <p>Software Engineer & Research‑Driven Builder</p>
+      </div>
     </section>
 
     <section id="about">
       <div class="card">
-        <h2>About Me</h2>
-        <p>
+        <h2 align="center">About Me</h2>
+        <p align="center">
           I’m Hazhiyah Yumni, an Information Systems graduate with hands-on
           experience in software development, project administration, and
           data-driven research. This portfolio showcases my work, journey, and
@@ -574,7 +626,7 @@
           <div class="proj-head">
             <h3 class="proj-title">Food Delivery API</h3>
             <div class="proj-links">
-              <a href="#" title="Repository"
+              <a href="https://github.com/hazhyni" title="Repository"
                 ><img
                   src="https://cdn-icons-png.flaticon.com/512/733/733609.png"
                   alt="Repo"
@@ -603,10 +655,10 @@
           <div class="proj-head">
             <h3 class="proj-title">Agriculture Marketplace</h3>
             <div class="proj-links">
-              <a href="#" title="Demo"
+              <a href="https://github.com/hazhyni" title="Projects"
                 ><img
                   src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
-                  alt="Demo"
+                  alt="Projects"
               /></a>
             </div>
           </div>
@@ -626,23 +678,87 @@
           <div class="thumb">
             <img
               src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
-              alt="Explainable AI Notes"
+              alt="Data Analysis E-Commerce"
             />
           </div>
           <div class="proj-head">
-            <h3 class="proj-title">Explainable AI Notes</h3>
+            <h3 class="proj-title">Brazilian E-Commerce Public Dataset</h3>
             <div class="proj-links">
-              <a href="#" title="Slides"
+              <a
+                href="https://yumni-data-analysis-ecom.streamlit.app/"
+                title="Demo"
                 ><img
-                  src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
-                  alt="Slides"
+                  src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
+                  alt="Demo"
               /></a>
             </div>
           </div>
           <p class="proj-desc">
-            Catatan eksperimen riset Explainable AI: membandingkan SHAP & LIME
-            untuk menjelaskan model machine learning sederhana dengan dataset
-            terbatas.
+            Built a data pipeline for RFM (Recency, Frequency, Monetary)
+            analysis and deployed insights via Streamlit, showcasing data
+            analysis and visualization skills.
+          </p>
+          <button class="more-btn" type="button">Details</button>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">SHAP</span
+            ><span class="chip">LIME</span>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="thumb">
+            <img
+              src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
+              alt="Data Analysis E-Commerce"
+            />
+          </div>
+          <div class="proj-head">
+            <h3 class="proj-title">Sentiment Analysis — Umma App</h3>
+            <div class="proj-links">
+              <a
+                href="https://yumni-data-analysis-ecom.streamlit.app/"
+                title="Demo"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
+                  alt="Demo"
+              /></a>
+            </div>
+          </div>
+          <p class="proj-desc">
+            Analisis sentimen ulasan/komentar pengguna aplikasi Umma untuk
+            memetakan pain points, fitur favorit, dan rekomendasi perbaikan
+            produk.
+          </p>
+          <button class="more-btn" type="button">Details</button>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">SHAP</span
+            ><span class="chip">LIME</span>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <div class="thumb">
+            <img
+              src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1200&auto=format&fit=crop"
+              alt="Data Analysis E-Commerce"
+            />
+          </div>
+          <div class="proj-head">
+            <h3 class="proj-title">Sentiment Analysis — X (Twitter)</h3>
+            <div class="proj-links">
+              <a
+                href="https://yumni-data-analysis-ecom.streamlit.app/"
+                title="Demo"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/84/84180.png"
+                  alt="Demo"
+              /></a>
+            </div>
+          </div>
+          <p class="proj-desc">
+            Analisis sentimen dan topik percakapan publik terkait kebijakan
+            kripto pra & pasca regulasi di Indonesia menggunakan pendekatan
+            leksikon + ML.
           </p>
           <button class="more-btn" type="button">Details</button>
           <div class="chips">
@@ -729,6 +845,7 @@
                 <a
                   href="https://github.com/hazhyni"
                   target="_blank"
+                  rel="noopener"
                   title="GitHub"
                   ><img
                     src="https://cdn-icons-png.flaticon.com/512/733/733553.png"
@@ -737,6 +854,7 @@
                 <a
                   href="https://linkedin.com/in/hazhiyah"
                   target="_blank"
+                  rel="noopener"
                   title="LinkedIn"
                   ><img
                     src="https://cdn-icons-png.flaticon.com/512/3536/3536505.png"
@@ -816,6 +934,7 @@
         window.__clampT = setTimeout(initReadMore, 150);
       });
 
+      // EMAIL
       // ganti value berikut sesuai akun EmailJS kamu
       const EMAILJS_PUBLIC_KEY = "EmjAb8QefCpJ1p2PD";
       const EMAILJS_SERVICE_ID = "service_z7zaw2f";
@@ -842,7 +961,7 @@
           const message = document.getElementById("cf-message").value.trim();
 
           if (!name || !email || !message) {
-            showAlert("Lengkapi semua field, ya 🙏", false);
+            showAlert("Please fill out all field 🙏", false);
             return;
           }
 
@@ -851,14 +970,13 @@
 
           try {
             await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+              email: email,
+              name: name,
               from_name: name,
               from_email: email,
               message: message,
             });
-            showAlert(
-              "Terkirim! Terima kasih, akan kubalas secepatnya. 🚀",
-              true
-            );
+            showAlert("Sent! Thank you, I'll respond immediately. 🚀", true);
             form.reset();
           } catch (err) {
             console.error(err);
